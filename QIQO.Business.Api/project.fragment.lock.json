@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "exports": {
+    "QIQO.Business.Core/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/QIQO.Business.Core.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/QIQO.Business.Core.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/QIQO.Business.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "QIQO.Business.Models/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/QIQO.Business.Models.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/QIQO.Business.Models.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/QIQO.Business.Models.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
