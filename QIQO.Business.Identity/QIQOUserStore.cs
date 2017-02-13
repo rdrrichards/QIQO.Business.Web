@@ -58,7 +58,7 @@ namespace QIQO.Business.Identity
         public Task AddToRoleAsync(TUser user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -75,7 +75,7 @@ namespace QIQO.Business.Identity
         public async Task<IdentityResult> CreateAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -93,7 +93,7 @@ namespace QIQO.Business.Identity
         public async Task<IdentityResult> DeleteAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -114,7 +114,7 @@ namespace QIQO.Business.Identity
         public Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.FindByEmailAsync(normalizedEmail) as Task<TUser>;
@@ -128,7 +128,7 @@ namespace QIQO.Business.Identity
         public Task<TUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.FindByIdAsync(userId) as Task<TUser>;
@@ -141,7 +141,7 @@ namespace QIQO.Business.Identity
         public Task<TUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.FindByLoginAsync(loginProvider, providerKey) as Task<TUser>;
@@ -154,7 +154,7 @@ namespace QIQO.Business.Identity
         public Task<TUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.FindByNameAsync(normalizedUserName) as Task<TUser>;
@@ -173,7 +173,7 @@ namespace QIQO.Business.Identity
         public Task<IList<Claim>> GetClaimsAsync(TUser user, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 IList<Claim> user_logins = new List<Claim>();
@@ -213,7 +213,7 @@ namespace QIQO.Business.Identity
         public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 IList<UserLoginInfo> user_logins = new List<UserLoginInfo>();
@@ -259,7 +259,7 @@ namespace QIQO.Business.Identity
         public Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.GetRolesAsync(user);
@@ -293,7 +293,7 @@ namespace QIQO.Business.Identity
         public Task<IList<TUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 IList<TUser> user_logins = new List<TUser>();
@@ -309,7 +309,7 @@ namespace QIQO.Business.Identity
         public Task<IList<TUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.GetUsersInRoleAsync(roleName) as Task<IList<TUser>>;
@@ -339,7 +339,7 @@ namespace QIQO.Business.Identity
         public Task<bool> IsInRoleAsync(TUser user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (proxy)
             {
                 return proxy.IsInRoleAsync(user, roleName);
@@ -353,7 +353,7 @@ namespace QIQO.Business.Identity
             foreach (var uc in claims)
                 usr_clams.Add(new UserClaim() { ClaimType = uc.ValueType, ClaimValue = uc.Value });
 
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -368,7 +368,7 @@ namespace QIQO.Business.Identity
         public Task RemoveFromRoleAsync(TUser user, string roleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -383,7 +383,7 @@ namespace QIQO.Business.Identity
         public Task RemoveLoginAsync(TUser user, string loginProvider, string providerKey, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -397,7 +397,7 @@ namespace QIQO.Business.Identity
         public Task ReplaceClaimAsync(TUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)
@@ -505,7 +505,7 @@ namespace QIQO.Business.Identity
         public async Task<IdentityResult> UpdateAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityUserService proxy = _service_factory.CreateClient<IIdentityUserService>();
+            var proxy = _service_factory.CreateClient<IIdentityUserService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (proxy)

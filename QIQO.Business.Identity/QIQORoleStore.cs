@@ -25,7 +25,7 @@ namespace QIQO.Business.Identity
         public Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (role_service)
@@ -49,7 +49,7 @@ namespace QIQO.Business.Identity
         public Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (role_service)
@@ -73,7 +73,7 @@ namespace QIQO.Business.Identity
         public Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (role_service)
@@ -101,7 +101,7 @@ namespace QIQO.Business.Identity
         public Task<TRole> FindByIdAsync(string roleId, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (role_service)
             {
                 try
@@ -122,7 +122,7 @@ namespace QIQO.Business.Identity
         public Task<TRole> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (role_service)
             {
                 try
@@ -152,7 +152,7 @@ namespace QIQO.Business.Identity
             cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(role.NormalizedName);
 
-            //IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            //var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             //using (role_service)
             //{
             //    try
@@ -173,7 +173,7 @@ namespace QIQO.Business.Identity
             return Task.FromResult(role.RoleId.ToString());
 
             //cancellationToken.ThrowIfCancellationRequested();
-            //IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            //var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             //using (role_service)
             //{
             //    try
@@ -193,7 +193,7 @@ namespace QIQO.Business.Identity
             cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(role.Name);
             //cancellationToken.ThrowIfCancellationRequested();
-            //IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            //var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             //using (role_service)
             //{
             //    try
@@ -231,7 +231,7 @@ namespace QIQO.Business.Identity
         public Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            IIdentityRoleService role_service = _service_factory.CreateClient<IIdentityRoleService>();
+            var role_service = _service_factory.CreateClient<IIdentityRoleService>();
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (role_service)
