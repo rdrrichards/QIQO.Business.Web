@@ -10,6 +10,10 @@ using QIQO.Business.Client.Contracts;
 using QIQO.Business.Services;
 using QIQO.Business.Client.Proxies;
 using Microsoft.AspNetCore.Routing;
+//using Microsoft.AspNet.Builder;
+using QIQO.Business.Client.Entities;
+using QIQO.Business.Identity;
+using System;
 
 namespace QIQO.Business.Api
 {
@@ -50,28 +54,31 @@ namespace QIQO.Business.Api
                 });
             });
 
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.User.AllowedUserNameCharacters = null;
+                options.User.RequireUniqueEmail = true;
+                //options.Lockout.AllowedForNewUsers = false;
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                options.Cookies.ApplicationCookie.AccessDeniedPath = "/Account/Forbidden";
+            })
+                .AddUserStore<QIQOUserStore<User>>()
+                .AddRoleStore<QIQORoleStore<Role>>()
+                .AddUserManager<QIQOUserManager>()
+                .AddRoleManager<QIQORoleManager>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc().AddJsonOptions
                 (
                     opt => { opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); }
                 );
-
-            //services.AddIdentity<User, Role>(options =>
-            //{
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireUppercase = true;
-            //    options.User.AllowedUserNameCharacters = null;
-            //    options.User.RequireUniqueEmail = true;
-            //    //options.Lockout.AllowedForNewUsers = false;
-            //    options.Lockout.MaxFailedAccessAttempts = 10;
-            //    options.SignIn.RequireConfirmedEmail = false;
-            //})
-            //    .AddUserStore<QIQOUserStore<User>>()
-            //    .AddRoleStore<QIQORoleStore<Role>>()
-            //    .AddUserManager<QIQOUserManager>()
-            //    .AddRoleManager<QIQORoleManager>()
-            //    .AddDefaultTokenProviders();
 
             services.AddSingleton<IServiceFactory>(new ServiceFactory(services));
             services.AddTransient<IIdentityUserService, IdentityUserClient>();
@@ -98,8 +105,9 @@ namespace QIQO.Business.Api
             loggerFactory.AddDebug();
 
             // app.UseApplicationInsightsRequestTelemetry();
-
             // app.UseApplicationInsightsExceptionTelemetry();
+            app.UseIdentity();
+            app.UseCookieAuthentication();
 
             app.UseCors("AnyOrigin");
             app.UseMvc(ConfigureRoutes);
