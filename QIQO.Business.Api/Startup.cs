@@ -4,16 +4,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Routing;
+using System;
 
 using QIQO.Business.Core;
 using QIQO.Business.Client.Contracts;
 using QIQO.Business.Services;
 using QIQO.Business.Client.Proxies;
-using Microsoft.AspNetCore.Routing;
-//using Microsoft.AspNet.Builder;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
-using System;
 
 namespace QIQO.Business.Api
 {
@@ -103,9 +102,7 @@ namespace QIQO.Business.Api
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            // app.UseApplicationInsightsRequestTelemetry();
-            // app.UseApplicationInsightsExceptionTelemetry();
+            
             app.UseIdentity();
             app.UseCookieAuthentication();
 
