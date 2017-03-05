@@ -170,7 +170,7 @@ namespace QIQO.Business.Identity
             return Task.FromResult(user.AccessFailedCount);
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(TUser user, CancellationToken cancellationToken)
+        public Task<IList<Claim>> GetClaimsAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
             var proxy = _service_factory.CreateClient<IIdentityUserService>();
