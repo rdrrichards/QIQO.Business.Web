@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{95EB25DB-E9ED-4188-94CA-8C9915A2F998}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QIQO.Business.Models", "QIQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QIQO.Business.Core", "QIQO.Business.Core\QIQO.Business.Core.csproj", "{758C0DC8-66B4-415B-B89A-BFBED2623BA3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QIQO.Business.Api", "QIQO.Business.Api\QIQO.Business.Api.xproj", "{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Business.Api", "QIQO.Business.Api\QIQO.Business.Api.csproj", "{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

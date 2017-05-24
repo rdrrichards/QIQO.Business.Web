@@ -9,13 +9,6 @@
       },
       "runtime": {
         "bin/Debug/QIQO.Business.Core.dll": {}
-      },
-      "contentFiles": {
-        "bin/Debug/QIQO.Business.Core.pdb": {
-          "buildAction": "None",
-          "codeLanguage": "any",
-          "copyToOutput": true
-        }
       }
     },
     "QIQO.Business.Models/1.0.0": {
