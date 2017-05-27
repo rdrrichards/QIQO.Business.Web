@@ -1,11 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461</TargetFrameworks> <!--;netstandard1.6-->
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>QIQO.Business.Api</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>QIQO.Business.Api</PackageId>
+    <Authors>Richard Richards</Authors>
+    <Company>QIQO Software</Company>
+    <Copyright>QIQO Software</Copyright>
+    <Description>General purpose web api that will for testing web client applications</Description>
+    <RepositoryUrl>https://github.com/rdrrichards/QIQO.Business.Web</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>webapi-2 asp-net-core</PackageTags>
+    <Version>1.0.2</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
