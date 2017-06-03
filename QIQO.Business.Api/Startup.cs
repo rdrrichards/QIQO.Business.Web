@@ -35,7 +35,8 @@ namespace QIQO.Business.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
+            //services.AddMemoryCache();
             services.AddCors(options =>
             {
                 options.AddPolicy("AnyOrigin", builder =>

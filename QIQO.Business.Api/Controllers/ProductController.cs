@@ -18,18 +18,18 @@ namespace QIQO.Business.Api.Controllers
         private IServiceFactory _service_fact;
         private IEntityService _entity_service;
         // private IUrlHelper _urlHelper;
-        private IMemoryCache _memory_cache;
+        private IMemoryCache _memoryCache;
         private const string baseUrl = "http://localhost:34479/";
         private const string prodCacheKey = "ProductList";
 
         public ProductController(IServiceFactory services, IEntityService entity_service, 
             // IUrlHelper urlHelper, 
-            IMemoryCache memory_cache)
+            IMemoryCache memoryCache)
         {
             _service_fact = services;
             _entity_service = entity_service;
             // _urlHelper = urlHelper;
-            _memory_cache = memory_cache;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet("api/products")]
@@ -37,13 +37,12 @@ namespace QIQO.Business.Api.Controllers
         {
             var route = "api/products";
             List<Product> prods;
-            List<ProductViewModel> pvms;
 
             if (psize <= 0) psize = 10;
 
             try
             {
-                if (!_memory_cache.TryGetValue(prodCacheKey, out pvms))
+                if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
                     IProductService proxy = _service_fact.CreateClient<IProductService>();
                     Company company = new Company() { CompanyKey = 1 };
@@ -59,7 +58,7 @@ namespace QIQO.Business.Api.Controllers
                     {
                         pvms.Add(_entity_service.Map(prod));
                     }
-                    _memory_cache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
+                    _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }
                 IEnumerable<ProductViewModel> baseQuery;
                 switch (orderby)
@@ -210,7 +209,7 @@ namespace QIQO.Business.Api.Controllers
 
             try
             {
-                if (!_memory_cache.TryGetValue(prodCacheKey, out pvms))
+                if (!_memoryCache.TryGetValue(prodCacheKey, out pvms))
                 {
                     IProductService proxy = _service_fact.CreateClient<IProductService>();
                     Company company = new Company() { CompanyKey = 1 };
@@ -226,7 +225,7 @@ namespace QIQO.Business.Api.Controllers
                     {
                         pvms.Add(_entity_service.Map(prod));
                     }
-                    _memory_cache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
+                    _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }
 
                 //Debug.WriteLine(pvms.Count);
@@ -280,7 +279,7 @@ namespace QIQO.Business.Api.Controllers
 
             try
             {
-                if (!_memory_cache.TryGetValue(prodCacheKey, out pvms))
+                if (!_memoryCache.TryGetValue(prodCacheKey, out pvms))
                 {
                     IProductService proxy = _service_fact.CreateClient<IProductService>();
                     Company company = new Company() { CompanyKey = 1 };
@@ -296,7 +295,7 @@ namespace QIQO.Business.Api.Controllers
                     {
                         pvms.Add(_entity_service.Map(prod));
                     }
-                    _memory_cache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
+                    _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }
 
                 //Debug.WriteLine(pvms.Count);
