@@ -5,7 +5,7 @@ namespace QIQO.Business.Api
 {
     public class ServiceFactory : IServiceFactory
     {
-        private IServiceCollection _services;
+        private readonly IServiceCollection _services;
 
         public ServiceFactory(IServiceCollection services)
         {

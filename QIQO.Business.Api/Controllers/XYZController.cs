@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 namespace QIQO.Business.Api.Controllers
 {
     public class XYZController : Controller {
-        private IMemoryCache _memoryCache;
+        private readonly IMemoryCache _memoryCache;
         private const string xyzCacheKey = "XYZ";
 
         public XYZController(IMemoryCache memoryCache)

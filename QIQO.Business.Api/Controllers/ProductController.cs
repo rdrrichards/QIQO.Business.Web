@@ -10,25 +10,23 @@ using Microsoft.AspNetCore.Mvc;
 using QIQO.Business.Core;
 using QIQO.Business.Services;
 using QIQO.Business.ViewModels.Api;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace QIQO.Business.Api.Controllers
 {
     public class ProductController : Controller
     {
-        private IServiceFactory _service_fact;
-        private IEntityService _entity_service;
-        // private IUrlHelper _urlHelper;
-        private IMemoryCache _memoryCache;
+        private readonly IServiceFactory _serviceFactory;
+        private readonly IEntityService _entityService;
+        private readonly IMemoryCache _memoryCache;
+
         private const string baseUrl = "http://localhost:34479/";
         private const string prodCacheKey = "ProductList";
 
-        public ProductController(IServiceFactory services, IEntityService entity_service, 
-            // IUrlHelper urlHelper, 
-            IMemoryCache memoryCache)
+        public ProductController(IServiceFactory serviceFactory, IEntityService entityService, IMemoryCache memoryCache)
         {
-            _service_fact = services;
-            _entity_service = entity_service;
-            // _urlHelper = urlHelper;
+            _serviceFactory = serviceFactory;
+            _entityService = entityService;
             _memoryCache = memoryCache;
         }
 
@@ -44,19 +42,18 @@ namespace QIQO.Business.Api.Controllers
             {
                 if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
-                    IProductService proxy = _service_fact.CreateClient<IProductService>();
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (proxy)
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        Task<List<Product>> products = proxy.GetProductsAsync(company);
+                        var products = proxy.GetProductsAsync(company);
                         prods = products.Result;
                     }
 
                     foreach (var prod in prods)
                     {
-                        pvms.Add(_entity_service.Map(prod));
+                        pvms.Add(_entityService.Map(prod));
                     }
                     _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }
@@ -112,17 +109,16 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                IProductService proxy = _service_fact.CreateClient<IProductService>();
                 Product prod;
 
-                using (proxy)
+                using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
-                    Task<Product> product = proxy.GetProductAsync(product_key);
+                    var product = proxy.GetProductAsync(product_key);
                     prod = product.Result;
                 }
 
                 Console.WriteLine(prod.ProductDesc);
-                return Json(_entity_service.Map(prod));
+                return Json(_entityService.Map(prod));
             }
             catch (Exception ex)
             {
@@ -139,18 +135,10 @@ namespace QIQO.Business.Api.Controllers
                 Debug.WriteLine(product.ProductLongDesc);
                 try
                 {
-                    Product pvm = _entity_service.Map(product);
-
-                    IProductService proxy = _service_fact.CreateClient<IProductService>();
-
-                    //var ident = WindowsIdentity.GetCurrent();
-                    //var prin = new WindowsPrincipal(ident);
-                    //Thread.CurrentPrincipal = prin;
-                    //Debug.WriteLine(ident.IsAuthenticated);
-
-                    using (proxy)
+                    var pvm = _entityService.Map(product);
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        Task<int> return_val = proxy.CreateProductAsync(pvm);
+                        var return_val = proxy.CreateProductAsync(pvm);
                         return Json(return_val.Result);
                     }
                 }
@@ -179,13 +167,11 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Product pvm = new Product() { ProductKey = product_key };
-
-                IProductService proxy = _service_fact.CreateClient<IProductService>();
-
-                using (proxy)
+                var pvm = new Product() { ProductKey = product_key };
+                
+                using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
-                    Task<bool> return_val = proxy.DeleteProductAsync(pvm);
+                    var return_val = proxy.DeleteProductAsync(pvm);
                     return Json(return_val.Result);
                 }
             }
@@ -201,29 +187,25 @@ namespace QIQO.Business.Api.Controllers
             if (q == "") return Json(new List<AccountViewModel>());
 
             Debug.WriteLine(q);
-            //var route = "api/products";
             List<Product> prods;
-            List<ProductViewModel> pvms;
-
             int psize = 100, page = 0;
 
             try
             {
-                if (!_memoryCache.TryGetValue(prodCacheKey, out pvms))
+                if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
-                    IProductService proxy = _service_fact.CreateClient<IProductService>();
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (proxy)
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        Task<List<Product>> products = proxy.GetProductsAsync(company);
+                        var products = proxy.GetProductsAsync(company);
                         prods = products.Result;
                     }
 
                     foreach (var prod in prods)
                     {
-                        pvms.Add(_entity_service.Map(prod));
+                        pvms.Add(_entityService.Map(prod));
                     }
                     _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }
@@ -281,19 +263,18 @@ namespace QIQO.Business.Api.Controllers
             {
                 if (!_memoryCache.TryGetValue(prodCacheKey, out pvms))
                 {
-                    IProductService proxy = _service_fact.CreateClient<IProductService>();
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (proxy)
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        Task<List<Product>> products = proxy.GetProductsAsync(company);
+                        var products = proxy.GetProductsAsync(company);
                         prods = products.Result;
                     }
 
                     foreach (var prod in prods)
                     {
-                        pvms.Add(_entity_service.Map(prod));
+                        pvms.Add(_entityService.Map(prod));
                     }
                     _memoryCache.Set(prodCacheKey, pvms, new MemoryCacheEntryOptions() { SlidingExpiration = new TimeSpan(0, 20, 0) });
                 }

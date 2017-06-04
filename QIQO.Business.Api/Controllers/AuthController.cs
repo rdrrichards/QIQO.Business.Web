@@ -10,9 +10,9 @@ namespace QIQO.Web.Api.Controllers
     //[Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private QIQOUserManager _userManager;
-        private SignInManager<User> _signinManager;
-        private QIQORoleManager _roleManager;
+        private readonly QIQOUserManager _userManager;
+        private readonly SignInManager<User> _signinManager;
+        private readonly QIQORoleManager _roleManager;
 
         public AuthController(QIQOUserManager userManager, SignInManager<User> signinManager, QIQORoleManager roleManager)
         {
