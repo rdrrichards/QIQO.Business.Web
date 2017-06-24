@@ -22,10 +22,7 @@ namespace QIQO.Web.Api.Controllers
         }
 
         [HttpGet("api/auth/test")]
-        public IActionResult Get()
-        {
-            return Json("Works!");
-        }
+        public IActionResult Get() => Json("Works!");
 
         [HttpPost("api/auth/authenticate")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)

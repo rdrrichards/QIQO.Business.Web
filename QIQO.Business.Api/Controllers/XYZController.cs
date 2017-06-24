@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 
@@ -36,7 +37,15 @@ namespace QIQO.Business.Api.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpGet("api/devices")]
+        public IActionResult Get(string query)
+        {
+            //var name = query.DeviceName;
+            return Json(query);
+        }
     }
 
     public class ResourceMember { }
+    public class Device { public string DeviceName { get; set; } }
 }
