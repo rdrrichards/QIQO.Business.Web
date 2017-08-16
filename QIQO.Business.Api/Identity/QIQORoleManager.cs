@@ -11,7 +11,7 @@ namespace QIQO.Business.Identity
         public QIQORoleManager(IRoleStore<Role> store, IEnumerable<IRoleValidator<Role>> roleValidators, 
             ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<Role>> logger, 
             IHttpContextAccessor contextAccessor) : 
-            base(store, roleValidators, keyNormalizer, errors, logger, contextAccessor)
+            base(store, roleValidators, keyNormalizer, errors, logger) // contextAccessor
         {
         }
     }

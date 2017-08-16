@@ -58,15 +58,15 @@ namespace QIQO.Business.Api
                 //options.Lockout.AllowedForNewUsers = false;
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.SignIn.RequireConfirmedEmail = false;
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
-                options.Cookies.ApplicationCookie.AccessDeniedPath = "/Account/Forbidden";
+                //options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                //options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                //options.Cookies.ApplicationCookie.AccessDeniedPath = "/Account/Forbidden";
             })
                 .AddUserStore<QIQOUserStore<User>>()
                 .AddRoleStore<QIQORoleStore<Role>>()
                 .AddUserManager<QIQOUserManager>()
-                .AddRoleManager<QIQORoleManager>()
-                .AddDefaultTokenProviders();
+                .AddRoleManager<QIQORoleManager>();
+                // .AddDefaultTokenProviders();
 
             services.AddMvc().AddJsonOptions
                 (
@@ -97,8 +97,8 @@ namespace QIQO.Business.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             
-            app.UseIdentity();
-            app.UseCookieAuthentication();
+            app.UseAuthentication();
+            // app.UseCookieAuthentication();
 
             app.UseCors("AnyOrigin");
             app.UseMvc(ConfigureRoutes);
