@@ -47,6 +47,8 @@ namespace QIQO.Business.Api
                 });
             });
 
+            services.AddAuthentication().AddCookie();
+
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequireDigit = true;
