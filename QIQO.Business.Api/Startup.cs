@@ -47,7 +47,13 @@ namespace QIQO.Business.Api
                 });
             });
 
-            services.AddAuthentication().AddCookie();
+            services.AddAuthentication().AddCookie(options => {
+                options.Cookie.Expiration = TimeSpan.FromDays(150);
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                options.Cookie.Name = "QIQO.Business.Cookie";
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/Forbidden";
+            });
 
             services.AddIdentity<User, Role>(options =>
             {
@@ -60,9 +66,6 @@ namespace QIQO.Business.Api
                 //options.Lockout.AllowedForNewUsers = false;
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.SignIn.RequireConfirmedEmail = false;
-                //options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                //options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
-                //options.Cookies.ApplicationCookie.AccessDeniedPath = "/Account/Forbidden";
             })
                 .AddUserStore<QIQOUserStore<User>>()
                 .AddRoleStore<QIQORoleStore<Role>>()
