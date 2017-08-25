@@ -47,13 +47,14 @@ namespace QIQO.Business.Api
                 });
             });
 
-            services.AddAuthentication().AddCookie(options => {
-                options.Cookie.Expiration = TimeSpan.FromDays(150);
-                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
-                options.Cookie.Name = "QIQO.Business.Cookie";
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/Forbidden";
-            });
+            //services.AddAuthentication().AddCookie(options =>
+            //{
+            //    options.Cookie.Expiration = TimeSpan.FromDays(150);
+            //    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+            //    options.Cookie.Name = "QIQO.Business.Cookie";
+            //    options.LoginPath = "/Account/Login";
+            //    options.AccessDeniedPath = "/Account/Forbidden";
+            //});
 
             services.AddIdentity<User, Role>(options =>
             {
@@ -71,12 +72,21 @@ namespace QIQO.Business.Api
                 .AddRoleStore<QIQORoleStore<Role>>()
                 .AddUserManager<QIQOUserManager>()
                 .AddRoleManager<QIQORoleManager>();
-                // .AddDefaultTokenProviders();
+            // .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Expiration = TimeSpan.FromDays(150);
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                options.Cookie.Name = "QIQO.Business.Cookie";
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/Forbidden";
+            });
 
             services.AddMvc().AddJsonOptions
-                (
-                    opt => { opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); }
-                );
+            (
+                opt => { opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); }
+            );
 
             services.AddSingleton<IServiceFactory>(new ServiceFactory(services));
             services.AddTransient<IIdentityUserService, IdentityUserClient>();
@@ -101,7 +111,7 @@ namespace QIQO.Business.Api
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
+
             app.UseAuthentication();
             // app.UseCookieAuthentication();
 
