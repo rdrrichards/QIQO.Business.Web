@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{95EB25DB-E9ED-4188-94CA-8C9915A2F998}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QIQO.Business.Core", "QIQO.Business.Core\QIQO.Business.Core.csproj", "{758C0DC8-66B4-415B-B89A-BFBED2623BA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Business.Api", "QIQO.Business.Api\QIQO.Business.Api.csproj", "{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{E2B67507-6B34-46FF-BC75-84135075B461}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QIQO.Business.Tests", "QIQO.Business.Tests\QIQO.Business.Tests.csproj", "{C9C68588-36B8-4451-9BB3-C7D35534121F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,10 @@ Global
 		{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F084B8-C774-46C3-A3AE-4522C8AD1CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C68588-36B8-4451-9BB3-C7D35534121F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C68588-36B8-4451-9BB3-C7D35534121F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C68588-36B8-4451-9BB3-C7D35534121F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C68588-36B8-4451-9BB3-C7D35534121F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +49,9 @@ Global
 		{AD3F74C6-2AA7-4FAB-8BFC-7F5239EFDCBC} = {95EB25DB-E9ED-4188-94CA-8C9915A2F998}
 		{758C0DC8-66B4-415B-B89A-BFBED2623BA3} = {EBAD83FE-636D-4488-A6C7-0485EB81AFC0}
 		{63F084B8-C774-46C3-A3AE-4522C8AD1CCB} = {19BFC616-52E5-45CE-850A-50B3934B8851}
+		{C9C68588-36B8-4451-9BB3-C7D35534121F} = {E2B67507-6B34-46FF-BC75-84135075B461}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3138534A-580D-48D7-9607-CC0A466DD56B}
 	EndGlobalSection
 EndGlobal

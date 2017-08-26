@@ -40,7 +40,6 @@ namespace QIQO.Business.Api.Controllers
                 }
 
                 var acct_vms = new List<AccountViewModel>();
-
                 foreach (var acct in accts)
                 {
                     var acct_vm = _entityService.Map(acct);
