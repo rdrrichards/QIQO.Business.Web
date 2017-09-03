@@ -186,7 +186,10 @@ namespace QIQO.Business.Api.Controllers
 
             Debug.WriteLine(q);
             List<Product> prods;
-            int psize = 100, page = 0;
+            int psize = 50, page = 0;
+            var route = "api/products";
+            var category = "all";
+            var orderby = "productName";
 
             try
             {
@@ -215,11 +218,9 @@ namespace QIQO.Business.Api.Controllers
 
                 var totalCount = filteredQuery.Count;
                 var totalPages = Math.Ceiling((decimal)totalCount / psize);
-
-                //var prevUrl = page > 0 ? _urlHelper.Link("Product", new { controller = "product", page = page - 1, orderby = orderby, category = category }) : "";
-                //var nextUrl = page < totalPages - 1 ? _urlHelper.Link("Product", new { page = page + 1, orderby = orderby, category = category }) : "";
-                var prevUrl = ""; // page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
-                var nextUrl = ""; // page < totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
+                
+                var prevUrl = page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
+                var nextUrl = page <= totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
 
                 var results = filteredQuery.Skip(psize * page)
                                        .Take(psize)
@@ -230,8 +231,8 @@ namespace QIQO.Business.Api.Controllers
                     TotalCount = totalCount,
                     CurrentPage = page,
                     TotalPages = totalPages,
-                    Category = "",
-                    OrderBy = "",
+                    Category = category,
+                    OrderBy = orderby,
                     PageSize = psize,
                     PrevPageUrl = prevUrl,
                     NextPageUrl = nextUrl,
@@ -242,9 +243,6 @@ namespace QIQO.Business.Api.Controllers
             {
                 return Json(ex);
             }
-
-            //List<Product> products = new List<Product>();
-            //return Json(products);
         }
 
 
@@ -286,8 +284,8 @@ namespace QIQO.Business.Api.Controllers
 
                 //var prevUrl = page > 0 ? _urlHelper.Link("Product", new { controller = "product", page = page - 1, orderby = orderby, category = category }) : "";
                 //var nextUrl = page < totalPages - 1 ? _urlHelper.Link("Product", new { page = page + 1, orderby = orderby, category = category }) : "";
-                var prevUrl = ""; // page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
-                var nextUrl = ""; // page < totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
+                var prevUrl = "";
+                var nextUrl = "";
 
                 var results = filteredQuery.Skip(psize * page)
                                        .Take(psize)
