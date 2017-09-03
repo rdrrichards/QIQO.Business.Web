@@ -31,7 +31,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products")]
-        public JsonResult Get(int page = 0, int psize = 10, string orderby = "productName", string category = "all")
+        public async Task<JsonResult> Get(int page = 0, int psize = 10, string orderby = "productName", string category = "all")
         {
             var route = "api/products";
             List<Product> prods;
@@ -47,8 +47,7 @@ namespace QIQO.Business.Api.Controllers
 
                     using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        var products = proxy.GetProductsAsync(company);
-                        prods = products.Result;
+                        prods = await proxy.GetProductsAsync(company);
                     }
 
                     foreach (var prod in prods)
@@ -105,7 +104,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products/{product_key}")]
-        public JsonResult Get(int product_key)
+        public async Task<JsonResult> Get(int product_key)
         {
             try
             {
@@ -113,8 +112,7 @@ namespace QIQO.Business.Api.Controllers
 
                 using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
-                    var product = proxy.GetProductAsync(product_key);
-                    prod = product.Result;
+                    prod = await proxy.GetProductAsync(product_key);
                 }
 
                 Console.WriteLine(prod.ProductDesc);
@@ -128,7 +126,7 @@ namespace QIQO.Business.Api.Controllers
 
         //[Authorize]
         [HttpPost("api/products")]
-        public JsonResult Post([FromBody] ProductViewModel product)
+        public async Task<JsonResult> Post([FromBody] ProductViewModel product)
         {
             if (product != null)
             {
@@ -138,8 +136,8 @@ namespace QIQO.Business.Api.Controllers
                     var pvm = _entityService.Map(product);
                     using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        var return_val = proxy.CreateProductAsync(pvm);
-                        return Json(return_val.Result);
+                        var return_val = await proxy.CreateProductAsync(pvm);
+                        return Json(return_val);
                     }
                 }
                 catch (Exception ex)
@@ -151,19 +149,19 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPut("api/products")]
-        public JsonResult Put([FromBody] ProductViewModel product)
+        public async Task<JsonResult> Put([FromBody] ProductViewModel product)
         {
             //return Json(new Exception(null));
             if (product != null)
             {
                 Debug.WriteLine(product.ProductShortDesc);
-                return Post(product);
+                return await Post(product);
             }
             return Json(new BadRequestResult());
         }
 
         [HttpDelete("api/products/{product_key}")]
-        public JsonResult Delete(int product_key)
+        public async Task<JsonResult> Delete(int product_key)
         {
             try
             {
@@ -171,8 +169,8 @@ namespace QIQO.Business.Api.Controllers
                 
                 using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
-                    var return_val = proxy.DeleteProductAsync(pvm);
-                    return Json(return_val.Result);
+                    var return_val = await proxy.DeleteProductAsync(pvm);
+                    return Json(return_val);
                 }
             }
             catch (Exception ex)
@@ -182,7 +180,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products&q={q}")]
-        public JsonResult Get(string q = "")
+        public async Task<JsonResult> Get(string q = "")
         {
             if (q == "") return Json(new List<AccountViewModel>());
 
@@ -199,8 +197,7 @@ namespace QIQO.Business.Api.Controllers
 
                     using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        var products = proxy.GetProductsAsync(company);
-                        prods = products.Result;
+                        prods = await proxy.GetProductsAsync(company);
                     }
 
                     foreach (var prod in prods)
@@ -252,7 +249,7 @@ namespace QIQO.Business.Api.Controllers
 
 
         [HttpGet("api/products/recent")]
-        public JsonResult GetRecent()
+        public async Task<JsonResult> GetRecent()
         {
             List<Product> prods;
             List<ProductViewModel> pvms;
@@ -268,8 +265,7 @@ namespace QIQO.Business.Api.Controllers
 
                     using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        var products = proxy.GetProductsAsync(company);
-                        prods = products.Result;
+                        prods = await proxy.GetProductsAsync(company);
                     }
 
                     foreach (var prod in prods)

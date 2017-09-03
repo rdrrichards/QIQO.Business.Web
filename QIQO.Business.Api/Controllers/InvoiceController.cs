@@ -22,16 +22,20 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/invoices/{invoice_key}")]
-        public JsonResult Get(int invoice_key)
+        public async Task<JsonResult> Get(int invoice_key)
         {
-            Task<Invoice> invoice;
             try
             {
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    invoice = proxy.GetInvoiceAsync(invoice_key);
+                    var invoice = await proxy.GetInvoiceAsync(invoice_key);
+                    var invoice_vm = _entityService.Map(invoice);
+
+                    foreach (var item in invoice.InvoiceItems)
+                        invoice_vm.InvoiceItems.Add(_entityService.Map(item));
+
+                    return Json(invoice_vm);
                 }
-                return Json(_entityService.Map(invoice.Result));
             }
             catch (Exception ex)
             {
@@ -40,15 +44,15 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPost("api/invoices")]
-        public JsonResult Post([FromBody] InvoiceViewModel invoice)
+        public async Task<JsonResult> Post([FromBody] InvoiceViewModel invoice)
         {
             try
             {
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    var invoice_key = proxy.CreateInvoiceAsync(_entityService.Map(invoice)); // Save invoice
-                    var new_invoice = proxy.GetInvoiceAsync(invoice_key.Result); // Get the new invoice and send it back to the client
-                    return Json(new_invoice.Result);
+                    var invoice_key = await proxy.CreateInvoiceAsync(_entityService.Map(invoice)); // Save invoice
+                    var new_invoice = await proxy.GetInvoiceAsync(invoice_key); // Get the new invoice and send it back to the client
+                    return Json(new_invoice);
                 }
             }
             catch (Exception ex)
@@ -58,21 +62,21 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPut("api/invoices")]
-        public JsonResult Put([FromBody] InvoiceViewModel invoice)
+        public async Task<JsonResult> Put([FromBody] InvoiceViewModel invoice)
         {
-            return Post(invoice);
+            return await Post(invoice);
         }
 
         [HttpDelete("api/invoices/{invoice_key}")]
-        public JsonResult Delete(int invoice_key)
+        public async Task<JsonResult> Delete(int invoice_key)
         {
             try
             {
                 var invoice = new Invoice() { InvoiceKey = invoice_key };
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    var invoice_res = proxy.DeleteInvoiceAsync(invoice); // delete invoice
-                    return Json(invoice_res.Result);
+                    var invoice_res = await proxy.DeleteInvoiceAsync(invoice); // delete invoice
+                    return Json(invoice_res);
                 }
             }
             catch (Exception ex)
@@ -82,7 +86,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/invoices")]
-        public JsonResult GetAccountInvoices(int account_key)
+        public async Task<JsonResult> GetAccountInvoices(int account_key)
         {
             List<Invoice> invs;
             var account = new Account() { AccountKey = account_key };
@@ -91,8 +95,7 @@ namespace QIQO.Business.Api.Controllers
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
                     //Task<List<Invoice>> invoice = proxy.GetInvoicesByAccountAsync(_entity_service.MapAccountViewModelToAccount(account));
-                    var invoices = proxy.GetInvoicesByAccountAsync(account);
-                    invs = invoices.Result;
+                    invs = await proxy.GetInvoicesByAccountAsync(account);
                 }
 
                 var acct_vms = new List<InvoiceViewModel>();
@@ -117,7 +120,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/invoices/{invoice_key}")]
-        public JsonResult GetAccountInvoice(int account_key, int invoice_key)
+        public async Task<JsonResult> GetAccountInvoice(int account_key, int invoice_key)
         {
             Invoice inv;
             //var account = new Account() { AccountKey = account_key };
@@ -125,8 +128,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    var invoices = proxy.GetInvoiceAsync(invoice_key);
-                    inv = invoices.Result;
+                    inv = await proxy.GetInvoiceAsync(invoice_key);
                 }
 
                 if (inv.Account.AccountKey != account_key)
@@ -147,7 +149,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/openinvoices")]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
             List<Invoice> invs;
             var company = new Company() { CompanyKey = 1 };
@@ -155,8 +157,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    var invoices = proxy.GetInvoicesByCompanyAsync(company);
-                    invs = invoices.Result;
+                    invs = await proxy.GetInvoicesByCompanyAsync(company);
                 }
 
                 var acct_vms = new List<InvoiceViewModel>();
@@ -181,7 +182,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/invoices&q={q}")]
-        public JsonResult Get(string q = "")
+        public async Task<JsonResult> Get(string q = "")
         {
             if (string.IsNullOrWhiteSpace(q)) return Json(new List<InvoiceViewModel>());
 
@@ -191,8 +192,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    var invoices = proxy.FindInvoicesByCompanyAsync(company, q);
-                    invs = invoices.Result;
+                    invs = await proxy.FindInvoicesByCompanyAsync(company, q);
                 }
 
                 var acct_vms = new List<InvoiceViewModel>();

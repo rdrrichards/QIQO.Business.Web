@@ -26,7 +26,7 @@ namespace QIQO.Business.Api.Controllers
         // GET: api/values
         [HttpGet("api/accounts")]
         //[Authorize]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
             try
             {
@@ -35,8 +35,7 @@ namespace QIQO.Business.Api.Controllers
 
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    var accounts = proxy.GetAccountsByCompanyAsync(company);
-                    accts = accounts.Result;
+                    accts = await proxy.GetAccountsByCompanyAsync(company);
                 }
 
                 var acct_vms = new List<AccountViewModel>();
@@ -65,7 +64,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts&q={q}")]
-        public JsonResult Get(string q = "")
+        public async Task<JsonResult> Get(string q = "")
         {
             if (q == "") return Json(new List<AccountViewModel>());
             try
@@ -75,8 +74,7 @@ namespace QIQO.Business.Api.Controllers
 
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    var accounts = proxy.FindAccountByCompanyAsync(company, q);
-                    accts = accounts.Result;
+                    accts = await proxy.FindAccountByCompanyAsync(company, q);
                 }
 
                 var acct_vms = new List<AccountViewModel>();
@@ -107,7 +105,7 @@ namespace QIQO.Business.Api.Controllers
 
         // GET api/values/5
         [HttpGet("api/accounts/{account_key}")]
-        public JsonResult Get(int account_key)
+        public async Task<JsonResult> Get(int account_key)
         {
             try
             {
@@ -115,9 +113,7 @@ namespace QIQO.Business.Api.Controllers
 
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    var account = proxy.GetAccountByIDAsync(account_key, true);
-                    acct = account.Result;
-                    //return Json(account.Result);
+                    acct = await proxy.GetAccountByIDAsync(account_key, true);
                 }
 
                 var acct_vm = _entityService.Map(acct);
@@ -141,14 +137,14 @@ namespace QIQO.Business.Api.Controllers
 
         // POST api/values
         [HttpPost("api/accounts")]
-        public JsonResult Post([FromBody] AccountViewModel account)
+        public async Task<JsonResult> Post([FromBody] AccountViewModel account)
         {
             try
             {
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    Task<int> return_val = proxy.CreateAccountAsync(_entityService.Map(account));
-                    return Json(return_val.Result);
+                    var return_val = await proxy.CreateAccountAsync(_entityService.Map(account));
+                    return Json(return_val);
                 }
             }
             catch (Exception ex)
@@ -159,22 +155,22 @@ namespace QIQO.Business.Api.Controllers
 
         // PUT api/values/5
         [HttpPut("api/accounts")]
-        public JsonResult Put([FromBody] AccountViewModel account)
+        public async Task<JsonResult> Put([FromBody] AccountViewModel account)
         {
-            return Post(account);
+            return await Post(account);
         }
 
         // DELETE api/values/5
         [HttpDelete("api/accounts/{account_key}")]
-        public JsonResult Delete(int account_key)
+        public async Task<JsonResult> Delete(int account_key)
         {
             try
             {
                 var account = new Account() { AccountKey = account_key };
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    var return_val = proxy.DeleteAccountAsync(account);
-                    return Json(return_val.Result);
+                    var return_val = await proxy.DeleteAccountAsync(account);
+                    return Json(return_val);
                 }
             }
             catch (Exception ex)
@@ -183,7 +179,7 @@ namespace QIQO.Business.Api.Controllers
             }
         }
         [HttpGet("api/accounts/recent")]
-        public JsonResult GetRecent()
+        public async Task<JsonResult> GetRecent()
         {
             try
             {
@@ -192,8 +188,7 @@ namespace QIQO.Business.Api.Controllers
 
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    var accounts = proxy.GetAccountsByCompanyAsync(company);
-                    accts = accounts.Result;
+                    accts = await proxy.GetAccountsByCompanyAsync(company);
                 }
 
                 var acct_vms = new List<AccountViewModel>();

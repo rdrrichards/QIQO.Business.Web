@@ -22,16 +22,14 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/orders/{order_key}")]
-        public JsonResult Get(int order_key)
+        public async Task<JsonResult> Get(int order_key)
         {
-            Task<Order> order;
             Order ord;
             try
             {
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    order = proxy.GetOrderAsync(order_key);
-                    ord = order.Result;
+                    ord = await proxy.GetOrderAsync(order_key);
                 }
 
                 var order_vm = _entityService.Map(ord);
@@ -48,15 +46,15 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPost("api/orders")]
-        public JsonResult Post([FromBody] OrderViewModel order)
+        public async Task<JsonResult> Post([FromBody] OrderViewModel order)
         {
             try
             {
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    var order_key = proxy.CreateOrderAsync(_entityService.Map(order)); // Save order
-                    var new_order = proxy.GetOrderAsync(order_key.Result); // Get the new order and send it back to the client
-                    return Json(new_order.Result);
+                    var order_key = await proxy.CreateOrderAsync(_entityService.Map(order)); // Save order
+                    var new_order = await proxy.GetOrderAsync(order_key); // Get the new order and send it back to the client
+                    return Json(new_order);
                 }
             }
             catch (Exception ex)
@@ -66,21 +64,21 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPut("api/orders")]
-        public JsonResult Put([FromBody] OrderViewModel order)
+        public async Task<JsonResult> Put([FromBody] OrderViewModel order)
         {
-            return Post(order);
+            return await Post(order);
         }
 
         [HttpDelete("api/orders/{order_key}")]
-        public JsonResult Delete(int order_key)
+        public async Task<JsonResult> Delete(int order_key)
         {
             try
             {
                 var order = new Order() { OrderKey = order_key };
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    var order_res = proxy.DeleteOrderAsync(order); // delete order
-                    return Json(order_res.Result);
+                    var order_res = await proxy.DeleteOrderAsync(order); // delete order
+                    return Json(order_res);
                 }
             }
             catch (Exception ex)
@@ -90,7 +88,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/orders")]
-        public JsonResult GetAccountOrders(int account_key)
+        public async Task<JsonResult> GetAccountOrders(int account_key)
         {
             List<Order> ords;
             var account = new Account() { AccountKey = account_key };
@@ -99,8 +97,7 @@ namespace QIQO.Business.Api.Controllers
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     //Task<List<Order>> order = proxy.GetOrdersByAccountAsync(_entity_service.MapAccountViewModelToAccount(account));
-                    var orders = proxy.GetOrdersByAccountAsync(account);
-                    ords = orders.Result;
+                    ords = await proxy.GetOrdersByAccountAsync(account);
                 }
 
                 var acct_vms = new List<OrderViewModel>();
@@ -125,7 +122,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/orders/{order_key}")]
-        public JsonResult GetAccountOrder(int account_key, int order_key)
+        public async Task<JsonResult> GetAccountOrder(int account_key, int order_key)
         {
             Order ord;
             //var account = new Account() { AccountKey = account_key };
@@ -133,8 +130,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    var orders = proxy.GetOrderAsync(order_key);
-                    ord = orders.Result;
+                    ord = await proxy.GetOrderAsync(order_key);
                 }
 
                 if (ord.Account.AccountKey != account_key)
@@ -155,7 +151,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/openorders")]
-        public JsonResult Get()
+        public async Task<JsonResult> Get()
         {
             List<Order> ords;
             var company = new Company() { CompanyKey = 1 };
@@ -163,8 +159,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    var orders = proxy.GetOrdersByCompanyAsync(company);
-                    ords = orders.Result;
+                    ords = await proxy.GetOrdersByCompanyAsync(company);
                 }
 
                 var acct_vms = new List<OrderViewModel>();
@@ -189,7 +184,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/orders&q={q}")]
-        public JsonResult Get(string q = "")
+        public async Task<JsonResult> Get(string q = "")
         {
             if (string.IsNullOrWhiteSpace(q)) return Json(new List<OrderViewModel>());
 
@@ -199,8 +194,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    var orders = proxy.FindOrdersByCompanyAsync(company, q);
-                    ords = orders.Result;
+                    ords = await proxy.FindOrdersByCompanyAsync(company, q);
                 }
 
                 var acct_vms = new List<OrderViewModel>();
