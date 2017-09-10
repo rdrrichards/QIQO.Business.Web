@@ -22,7 +22,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/invoices/{invoice_key}")]
-        public async Task<JsonResult> Get(int invoice_key)
+        public async Task<IActionResult> Get(int invoice_key)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPost("api/invoices")]
-        public async Task<JsonResult> Post([FromBody] InvoiceViewModel invoice)
+        public async Task<IActionResult> Post([FromBody] InvoiceViewModel invoice)
         {
             try
             {
@@ -62,13 +62,13 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPut("api/invoices")]
-        public async Task<JsonResult> Put([FromBody] InvoiceViewModel invoice)
+        public async Task<IActionResult> Put([FromBody] InvoiceViewModel invoice)
         {
             return await Post(invoice);
         }
 
         [HttpDelete("api/invoices/{invoice_key}")]
-        public async Task<JsonResult> Delete(int invoice_key)
+        public async Task<IActionResult> Delete(int invoice_key)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/invoices")]
-        public async Task<JsonResult> GetAccountInvoices(int account_key)
+        public async Task<IActionResult> GetAccountInvoices(int account_key)
         {
             List<Invoice> invs;
             var account = new Account() { AccountKey = account_key };
@@ -120,7 +120,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts/{account_key}/invoices/{invoice_key}")]
-        public async Task<JsonResult> GetAccountInvoice(int account_key, int invoice_key)
+        public async Task<IActionResult> GetAccountInvoice(int account_key, int invoice_key)
         {
             Invoice inv;
             //var account = new Account() { AccountKey = account_key };
@@ -149,7 +149,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/openinvoices")]
-        public async Task<JsonResult> Get()
+        public async Task<IActionResult> Get()
         {
             List<Invoice> invs;
             var company = new Company() { CompanyKey = 1 };
@@ -182,7 +182,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/invoices&q={q}")]
-        public async Task<JsonResult> Get(string q = "")
+        public async Task<IActionResult> Get(string q = "")
         {
             if (string.IsNullOrWhiteSpace(q)) return Json(new List<InvoiceViewModel>());
 

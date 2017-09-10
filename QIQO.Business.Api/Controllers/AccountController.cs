@@ -26,7 +26,7 @@ namespace QIQO.Business.Api.Controllers
         // GET: api/values
         [HttpGet("api/accounts")]
         //[Authorize]
-        public async Task<JsonResult> Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/accounts&q={q}")]
-        public async Task<JsonResult> Get(string q = "")
+        public async Task<IActionResult> Get(string q = "")
         {
             if (q == "") return Json(new List<AccountViewModel>());
             try
@@ -105,7 +105,7 @@ namespace QIQO.Business.Api.Controllers
 
         // GET api/values/5
         [HttpGet("api/accounts/{account_key}")]
-        public async Task<JsonResult> Get(int account_key)
+        public async Task<IActionResult> Get(int account_key)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace QIQO.Business.Api.Controllers
 
         // POST api/values
         [HttpPost("api/accounts")]
-        public async Task<JsonResult> Post([FromBody] AccountViewModel account)
+        public async Task<IActionResult> Post([FromBody] AccountViewModel account)
         {
             try
             {
@@ -155,14 +155,14 @@ namespace QIQO.Business.Api.Controllers
 
         // PUT api/values/5
         [HttpPut("api/accounts")]
-        public async Task<JsonResult> Put([FromBody] AccountViewModel account)
+        public async Task<IActionResult> Put([FromBody] AccountViewModel account)
         {
             return await Post(account);
         }
 
         // DELETE api/values/5
         [HttpDelete("api/accounts/{account_key}")]
-        public async Task<JsonResult> Delete(int account_key)
+        public async Task<IActionResult> Delete(int account_key)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace QIQO.Business.Api.Controllers
             }
         }
         [HttpGet("api/accounts/recent")]
-        public async Task<JsonResult> GetRecent()
+        public async Task<IActionResult> GetRecent()
         {
             try
             {

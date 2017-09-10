@@ -31,7 +31,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products")]
-        public async Task<JsonResult> Get(int page = 0, int psize = 10, string orderby = "productName", string category = "all")
+        public async Task<IActionResult> Get(int page = 0, int psize = 10, string orderby = "productName", string category = "all")
         {
             var route = "api/products";
             List<Product> prods;
@@ -104,7 +104,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products/{product_key}")]
-        public async Task<JsonResult> Get(int product_key)
+        public async Task<IActionResult> Get(int product_key)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace QIQO.Business.Api.Controllers
 
         //[Authorize]
         [HttpPost("api/products")]
-        public async Task<JsonResult> Post([FromBody] ProductViewModel product)
+        public async Task<IActionResult> Post([FromBody] ProductViewModel product)
         {
             if (product != null)
             {
@@ -149,7 +149,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpPut("api/products")]
-        public async Task<JsonResult> Put([FromBody] ProductViewModel product)
+        public async Task<IActionResult> Put([FromBody] ProductViewModel product)
         {
             //return Json(new Exception(null));
             if (product != null)
@@ -161,7 +161,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpDelete("api/products/{product_key}")]
-        public async Task<JsonResult> Delete(int product_key)
+        public async Task<IActionResult> Delete(int product_key)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace QIQO.Business.Api.Controllers
         }
 
         [HttpGet("api/products&q={q}")]
-        public async Task<JsonResult> Get(string q = "")
+        public async Task<IActionResult> Get(string q = "")
         {
             if (q == "") return Json(new List<AccountViewModel>());
 
@@ -247,7 +247,7 @@ namespace QIQO.Business.Api.Controllers
 
 
         [HttpGet("api/products/recent")]
-        public async Task<JsonResult> GetRecent()
+        public async Task<IActionResult> GetRecent()
         {
             List<Product> prods;
             List<ProductViewModel> pvms;
