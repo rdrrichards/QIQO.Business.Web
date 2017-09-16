@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using QIQO.Business.Core;
 using QIQO.Business.Services;
 using QIQO.Business.ViewModels.Api;
+using Microsoft.AspNetCore.Authorization;
+using QIQO.Business.Identity;
 
 namespace QIQO.Business.Api.Controllers
 {
@@ -17,20 +19,25 @@ namespace QIQO.Business.Api.Controllers
         private readonly IServiceFactory _serviceFactory;
         private readonly IEntityService _entityService;
 
-        public AccountController(IServiceFactory serviceFactory, IEntityService entityService)
+        public QIQOUserManager _userManager { get; }
+
+        public AccountController(IServiceFactory serviceFactory, IEntityService entityService, QIQOUserManager userManager)
         {
             _serviceFactory = serviceFactory;
             _entityService = entityService;
+            _userManager = userManager;
         }
 
         // GET: api/values
         [HttpGet("api/accounts")]
-        //[Authorize]
+        // [Authorize]
         public async Task<IActionResult> Get()
         {
+            //var usr = await _userManager.FindByNameAsync(this.User.Identity.Name);
+            //if (usr == null) return BadRequest();
             try
             {
-                var company = new Company() { CompanyKey = 1 };
+                var company = new Company() { CompanyKey = 2 };
                 List<Account> accts;
 
                 using (var proxy = _serviceFactory.CreateClient<IAccountService>())

@@ -13,6 +13,8 @@ using QIQO.Business.Services;
 using QIQO.Business.Client.Proxies;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace QIQO.Business.Api
 {
@@ -43,18 +45,10 @@ namespace QIQO.Business.Api
                     builder
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
+                        // .AllowCredentials()
                         .AllowAnyMethod();
                 });
             });
-
-            //services.AddAuthentication().AddCookie(options =>
-            //{
-            //    options.Cookie.Expiration = TimeSpan.FromDays(150);
-            //    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
-            //    options.Cookie.Name = "QIQO.Business.Cookie";
-            //    options.LoginPath = "/Account/Login";
-            //    options.AccessDeniedPath = "/Account/Forbidden";
-            //});
 
             services.AddIdentity<User, Role>(options =>
             {
@@ -67,6 +61,22 @@ namespace QIQO.Business.Api
                 //options.Lockout.AllowedForNewUsers = false;
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.SignIn.RequireConfirmedEmail = false;
+                //options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
+                //{
+                //    OnRedirectToLogin = async ctx =>
+                //    {
+                //        if (ctx.Request.Path.Value.Contains("/api/") &&
+                //          ctx.Response.StatusCode == 200)
+                //        {
+                //            ctx.Response.StatusCode = 401;
+                //        }
+                //        else
+                //        {
+                //            ctx.Response.Redirect(ctx.RedirectUri);
+                //        }
+                //        await Task.Yield();
+                //    }
+                //};
             })
                 .AddUserStore<QIQOUserStore<User>>()
                 .AddRoleStore<QIQORoleStore<Role>>()
@@ -74,14 +84,33 @@ namespace QIQO.Business.Api
                 .AddRoleManager<QIQORoleManager>();
             // .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.Expiration = TimeSpan.FromDays(150);
-                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
-                options.Cookie.Name = "QIQO.Business.Cookie";
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/Forbidden";
-            });
+            //services.AddAuthentication().AddCookie();
+
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    //options.Cookie.Expiration = TimeSpan.FromDays(150);
+            //    //options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+            //    //// options.Cookie.Name = "QIQO.Business.Cookie";
+            //    //options.LoginPath = "/Account/Login";
+            //    //options.AccessDeniedPath = "/Account/Forbidden";
+
+            //    options.Events = new CookieAuthenticationEvents()
+            //    {
+            //        OnRedirectToLogin = async ctx =>
+            //        {
+            //            if (ctx.Request.Path.Value.Contains("/api/") &&
+            //              ctx.Response.StatusCode == 200)
+            //            {
+            //                ctx.Response.StatusCode = 401;
+            //            }
+            //            else
+            //            {
+            //                ctx.Response.Redirect(ctx.RedirectUri);
+            //            }
+            //            await Task.Yield();
+            //        }
+            //    };
+            //});
 
             services.AddMvc().AddJsonOptions
             (

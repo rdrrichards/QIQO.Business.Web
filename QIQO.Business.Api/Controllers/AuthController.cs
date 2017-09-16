@@ -30,7 +30,7 @@ namespace QIQO.Web.Api.Controllers
             var result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
-                return Json(new { Succeeded = true, Message = "Authentication succeeded" });
+                return Ok(); // Json(new { Succeeded = true, Message = "Authentication succeeded" });
             }
             else
             {
