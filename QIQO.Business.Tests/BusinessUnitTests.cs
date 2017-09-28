@@ -24,7 +24,12 @@ namespace QIQO.Business.Tests
         public void AccountClientCreateAccountReturnsInt()
         {
             // Arrange
-            var account = new Account() { AccountKey = 123 };
+            var account = new Account() { AccountKey = 123,
+                AccountCode = "TEST123",
+                AccountName = "Test Account",
+                AccountDesc = "Test Account Description",
+                AccountDBA = "Test Account DBA"
+            };
             var mockAccountClient = new Mock<IAccountService>();
 
             mockAccountClient.Setup(m => m.CreateAccount(It.IsAny<Account>())).Returns(123);
@@ -36,7 +41,26 @@ namespace QIQO.Business.Tests
             var ret_val = sut.CreateAccount(account);
 
             // Assert
-            Assert.Same(ret_val, 123);
+            Assert.Equal(ret_val, 123);
+        }
+
+        [Fact, AssumeIdentity("QIQOOrderEntryAdmin")]
+        public void AccountClientDeleteAccountReturnsBoolean()
+        {
+            // Arrange
+            var account = new Account() { AccountKey = 123 };
+            var mockAccountClient = new Mock<IAccountService>();
+
+            mockAccountClient.Setup(m => m.DeleteAccount(It.IsAny<Account>())).Returns(true);
+
+            // SUT
+            var sut = new AccountClient(EndpointConfiguration.NetTcpBinding_IAccountService);
+
+            // Act
+            var ret_val = sut.DeleteAccount(account);
+
+            // Assert
+            Assert.Equal(ret_val, true);
         }
     }
 }
