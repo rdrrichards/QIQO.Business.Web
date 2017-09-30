@@ -4,21 +4,11 @@ using QIQO.Business.Client.Contracts;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Client.Proxies;
 using Xunit;
-using System.Security.Principal;
-using System.Threading;
-using System;
 
 namespace QIQO.Business.Tests
 {
     public class AccountClientTests
     {
-        //public AccountClientTests()
-        //{
-        //    var principal = new GenericPrincipal(
-        //       new GenericIdentity("Richard Richards"), new string[] { "Administrators", "QIQOOrderEntryAdmin" });
-        //    Thread.CurrentPrincipal = principal;
-        //    AppDomain.CurrentDomain.SetThreadPrincipal(principal);
-        //}
 
         [Fact, AssumeIdentity("QIQOOrderEntryAdmin")]
         public void AccountClientCreateAccountReturnsInt()
