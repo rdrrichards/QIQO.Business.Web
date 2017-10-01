@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using QIQO.Business.Identity;
+using QIQO.Business.Client.Entities;
 
 namespace Microsoft.AspNetCore.Identity.Test
 {
@@ -61,23 +62,23 @@ namespace Microsoft.AspNetCore.Identity.Test
             return logger;
         }
 
-        public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) where TUser : class
+        public static QIQOUserManager TestUserManager(IUserStore<User> store = null) // where User : class
         {
-            store = store ?? new Mock<IUserStore<TUser>>().Object;
+            store = store ?? new Mock<IUserStore<User>>().Object;
             var options = new Mock<IOptions<IdentityOptions>>();
             var idOptions = new IdentityOptions();
             idOptions.Lockout.AllowedForNewUsers = false;
             options.Setup(o => o.Value).Returns(idOptions);
-            var userValidators = new List<IUserValidator<TUser>>();
-            var validator = new Mock<IUserValidator<TUser>>();
+            var userValidators = new List<IUserValidator<User>>();
+            var validator = new Mock<IUserValidator<User>>();
             userValidators.Add(validator.Object);
-            var pwdValidators = new List<PasswordValidator<TUser>>();
-            pwdValidators.Add(new PasswordValidator<TUser>());
-            var userManager = new UserManager<TUser>(store, options.Object, new PasswordHasher<TUser>(),
+            var pwdValidators = new List<PasswordValidator<User>>();
+            pwdValidators.Add(new PasswordValidator<User>());
+            var userManager = new QIQOUserManager(store, options.Object, new PasswordHasher<User>(),
                 userValidators, pwdValidators, new UpperInvariantLookupNormalizer(),
                 new IdentityErrorDescriber(), null,
-                new Mock<ILogger<UserManager<TUser>>>().Object);
-            validator.Setup(v => v.ValidateAsync(userManager, It.IsAny<TUser>()))
+                new Mock<ILogger<QIQOUserManager>>().Object, null);
+            validator.Setup(v => v.ValidateAsync(userManager, It.IsAny<User>()))
                 .Returns(Task.FromResult(IdentityResult.Success)).Verifiable();
             return userManager;
         }

@@ -36,7 +36,7 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.CreateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.UserName)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.CreateAsync(user);
@@ -57,7 +57,7 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.GetEmailAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.Email)).Verifiable();
             store.Setup(s => s.SetNormalizedEmailAsync(user, user.Email.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.CreateAsync(user);
@@ -151,7 +151,7 @@ namespace QIQO.Business.Tests
             var store = new Mock<IUserStore<User>>();
             var user = new User { UserName = "Foo" };
             store.Setup(s => s.FindByIdAsync(user.UserId.ToString(), CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.FindByIdAsync(user.UserId.ToString());
@@ -168,7 +168,7 @@ namespace QIQO.Business.Tests
             var store = new Mock<IUserStore<User>>();
             var user = new User { UserName = "Foo" };
             store.Setup(s => s.FindByNameAsync(user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.FindByNameAsync(user.UserName);
@@ -258,7 +258,7 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "C", CancellationToken.None))
                 .Returns(Task.FromResult(false))
                 .Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.AddToRolesAsync(user, roles);
@@ -318,7 +318,7 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "C", CancellationToken.None))
                 .Returns(Task.FromResult(true))
                 .Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.RemoveFromRolesAsync(user, roles);
@@ -344,7 +344,7 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "B", CancellationToken.None))
                 .Returns(Task.FromResult(false))
                 .Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.RemoveFromRolesAsync(user, roles);
@@ -482,7 +482,7 @@ namespace QIQO.Business.Tests
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            var userManager = MockHelpers.TestUserManager<User>(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
             var result = await userManager.RemoveClaimAsync(user, claim);
