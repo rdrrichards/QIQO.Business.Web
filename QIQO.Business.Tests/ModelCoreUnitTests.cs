@@ -59,5 +59,33 @@ namespace QIQO.Business.Tests
             Assert.Equal("Test", ap.UpdateUserID);
             Assert.Equal(162, ap.EntityPersonKey);
         }
+
+        [Fact]
+        public void AccountTypeUnitTests()
+        {
+            var at = new AccountType()
+            {
+                AccountTypeCode = "Test",
+                AccountTypeDesc = "Test Desc",
+                AccountTypeKey = 1,
+                AccountTypeName = "Test Name",
+                AddedDateTime = DateTime.Today,
+                AddedUserID = "TEST",
+                TypeRowKey = 1,
+                UpdateDateTime = DateTime.Today,
+                UpdateUserID = "TEST"
+            };
+
+            Assert.Equal("Test", at.AccountTypeCode);
+            Assert.Equal("Test Desc", at.AccountTypeDesc);
+            Assert.Equal(1, at.AccountTypeKey);
+            Assert.Equal("Test Name", at.AccountTypeName);
+            Assert.Equal(DateTime.Today, at.AddedDateTime);
+            Assert.Equal("TEST", at.AddedUserID);
+            Assert.Equal(1, at.TypeRowKey);
+            Assert.Equal(DateTime.Today, at.UpdateDateTime);
+            Assert.Equal("TEST", at.UpdateUserID);
+            Assert.Equal(at.TypeRowKey, at.AccountTypeKey);
+        }
     }
 }
