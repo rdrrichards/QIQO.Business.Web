@@ -21,10 +21,10 @@ namespace QIQO.Business.Core
         {
         }
 
-        public NotFoundException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
+        //public NotFoundException(SerializationInfo info, StreamingContext context)
+        //    : base(info, context)
+        //{
 
-        }
+        //}
     }
 }

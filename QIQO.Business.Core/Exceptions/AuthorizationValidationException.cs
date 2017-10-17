@@ -20,10 +20,10 @@ namespace QIQO.Business.Core
         {
         }
 
-        public AuthorizationValidationException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
+        //public AuthorizationValidationException(SerializationInfo info, StreamingContext context)
+        //    : base(info, context)
+        //{
 
-        }
+        //}
     }
 }

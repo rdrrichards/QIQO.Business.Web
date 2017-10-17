@@ -31,7 +31,7 @@ namespace QIQO.Business.Tests
             var ret_val = sut.CreateAccount(account);
 
             // Assert
-            Assert.Equal(ret_val, 123);
+            Assert.Equal(123, ret_val);
         }
 
         [Fact, AssumeIdentity("QIQOOrderEntryAdmin")]
@@ -50,7 +50,7 @@ namespace QIQO.Business.Tests
             var ret_val = sut.DeleteAccount(account);
 
             // Assert
-            Assert.Equal(ret_val, true);
+            Assert.True(ret_val);
         }
     }
 }
