@@ -600,7 +600,7 @@ namespace QIQO.Business.Tests
             }
         }
 
-        
+
 
         private async Task VerifyException<TException>(Func<Task> code, string expectedMessage) where TException : Exception
         {
