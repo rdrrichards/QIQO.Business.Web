@@ -112,10 +112,7 @@ namespace QIQO.Business.Api
             //    };
             //});
 
-            services.AddMvc().AddJsonOptions
-            (
-                opt => { opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); }
-            );
+            services.AddMvc();
 
             services.AddSingleton<IServiceFactory>(new ServiceFactory(services));
             services.AddTransient<IIdentityUserService, IdentityUserClient>();
