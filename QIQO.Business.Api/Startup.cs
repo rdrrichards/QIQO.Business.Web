@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Routing;
-using System;
 
 using QIQO.Business.Core;
 using QIQO.Business.Client.Contracts;
@@ -13,8 +11,6 @@ using QIQO.Business.Services;
 using QIQO.Business.Client.Proxies;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Threading.Tasks;
 
 namespace QIQO.Business.Api
 {
@@ -115,6 +111,7 @@ namespace QIQO.Business.Api
             services.AddMvc();
 
             services.AddSingleton<IServiceFactory>(new ServiceFactory(services));
+            services.AddSingleton<LogTesting>();
             services.AddTransient<IIdentityUserService, IdentityUserClient>();
             services.AddTransient<IIdentityRoleService, IdentityRoleClient>();
             services.AddTransient<IAccountService, AccountClient>();
