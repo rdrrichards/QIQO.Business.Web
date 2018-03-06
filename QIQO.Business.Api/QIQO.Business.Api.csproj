@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net462</TargetFrameworks> <!--;netstandard1.6-->
+    <TargetFrameworks>net471</TargetFrameworks> <!--;netstandard1.6-->
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>QIQO.Business.Api</AssemblyName>
     <OutputType>Exe</OutputType>
