@@ -17,13 +17,13 @@ namespace QIQO.Business.Tests
     {
         public class CustomUserManager : QIQOUserManager
         {
-            public CustomUserManager() : base(new Mock<IUserStore<User>>().Object, null, null, null, null, null, null, null, null, null)
+            public CustomUserManager() : base(new Mock<IUserStore<User>>().Object, null, null, null, null, null, null, null, null)
             { }
         }
 
         public class CustomRoleManager : QIQORoleManager
         {
-            public CustomRoleManager() : base(new Mock<IRoleStore<Role>>().Object, null, null, null, null, null)
+            public CustomRoleManager() : base(new Mock<IRoleStore<Role>>().Object, null, null, null, null)
             { }
         }
 

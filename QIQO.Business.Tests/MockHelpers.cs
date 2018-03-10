@@ -77,7 +77,7 @@ namespace Microsoft.AspNetCore.Identity.Test
             var userManager = new QIQOUserManager(store, options.Object, new PasswordHasher<User>(),
                 userValidators, pwdValidators, new UpperInvariantLookupNormalizer(),
                 new IdentityErrorDescriber(), null,
-                new Mock<ILogger<QIQOUserManager>>().Object, null);
+                new Mock<ILogger<QIQOUserManager>>().Object);
             validator.Setup(v => v.ValidateAsync(userManager, It.IsAny<User>()))
                 .Returns(Task.FromResult(IdentityResult.Success)).Verifiable();
             return userManager;
