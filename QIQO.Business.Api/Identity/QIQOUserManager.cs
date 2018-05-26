@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using QIQO.Business.Client.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
+using QIQO.Business.Client.Entities;
 
 namespace QIQO.Business.Identity
 {

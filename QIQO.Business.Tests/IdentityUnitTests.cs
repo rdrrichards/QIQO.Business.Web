@@ -1,14 +1,14 @@
-﻿using Xunit;
-using Moq;
-using QIQO.Business.Identity;
-using QIQO.Business.Client.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Test;
-using System.Security.Claims;
-using System.Collections.Generic;
+using Moq;
+using QIQO.Business.Client.Entities;
+using QIQO.Business.Identity;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 // I stole many of this from the ASP.NET Identity unit tests
 namespace QIQO.Business.Tests
