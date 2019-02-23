@@ -139,12 +139,7 @@ namespace QIQO.Business.Api
             // app.UseCookieAuthentication();
 
             app.UseCors("AnyOrigin");
-            app.UseMvc(ConfigureRoutes);
-        }
-        private void ConfigureRoutes(IRouteBuilder routeBuilder)
-        {
-            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
-            //routeBuilder.MapRoute("Product", "api/{controller}/{product_key?}", new { product_key = RouteP);
+            app.UseMvc();
         }
     }
 }
