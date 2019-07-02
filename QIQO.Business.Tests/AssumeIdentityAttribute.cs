@@ -47,8 +47,8 @@ public class AssumeIdentityAttribute : BeforeAfterTestAttribute
     public override void Before(MethodInfo methodUnderTest)
     {
         originalPrincipal = Thread.CurrentPrincipal;
-        GenericIdentity identity = new GenericIdentity("Richard Richards");
-        GenericPrincipal principal = new GenericPrincipal(identity, new string[] { Name });
+        var identity = new GenericIdentity("Richard Richards");
+        var principal = new GenericPrincipal(identity, new string[] { Name });
         Thread.CurrentPrincipal = principal;
     }
 }

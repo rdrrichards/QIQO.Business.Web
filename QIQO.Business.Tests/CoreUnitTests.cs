@@ -9,13 +9,13 @@ namespace QIQO.Business.Tests
         [Fact]
         public void AuthorizationValidationExceptionTests()
         {
-            AuthorizationValidationException ex1 = new AuthorizationValidationException();
+            var ex1 = new AuthorizationValidationException();
             Assert.NotNull(ex1);
 
-            AuthorizationValidationException ex2 = new AuthorizationValidationException("Run for you life!");
+            var ex2 = new AuthorizationValidationException("Run for you life!");
             Assert.NotNull(ex2);
 
-            AuthorizationValidationException ex3 = new AuthorizationValidationException("Run for you life!", new Exception());
+            var ex3 = new AuthorizationValidationException("Run for you life!", new Exception());
             Assert.NotNull(ex3);
 
             //var fc = new Mock<IFormatterConverter>();
@@ -28,13 +28,13 @@ namespace QIQO.Business.Tests
         [Fact]
         public void NotFoundExceptionTests()
         {
-            NotFoundException ex1 = new NotFoundException();
+            var ex1 = new NotFoundException();
             Assert.NotNull(ex1);
 
-            NotFoundException ex2 = new NotFoundException("Run for you life!");
+            var ex2 = new NotFoundException("Run for you life!");
             Assert.NotNull(ex2);
 
-            NotFoundException ex3 = new NotFoundException("Run for you life!", new Exception());
+            var ex3 = new NotFoundException("Run for you life!", new Exception());
             Assert.NotNull(ex3);
 
             //var fc = new Mock<IFormatterConverter>();

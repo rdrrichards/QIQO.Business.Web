@@ -8,7 +8,7 @@ namespace QIQO.Business.Api
     {
         public static void Main(string[] args)
         {
-            IWebHost host = new WebHostBuilder()
+            var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

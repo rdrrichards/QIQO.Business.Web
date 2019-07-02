@@ -8,7 +8,7 @@ namespace QIQO.Business.Client.Proxies
         {
             if ((endpointConfigurationType == EndpointConfigurationType.BasicHttpBinding))
             {
-                BasicHttpBinding result = new BasicHttpBinding();
+                var result = new BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
@@ -17,7 +17,7 @@ namespace QIQO.Business.Client.Proxies
             }
             if ((endpointConfigurationType == EndpointConfigurationType.NetTcpBinding))
             {
-                NetTcpBinding result = new NetTcpBinding();
+                var result = new NetTcpBinding();
                 result.MaxBufferSize = int.MaxValue;
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;

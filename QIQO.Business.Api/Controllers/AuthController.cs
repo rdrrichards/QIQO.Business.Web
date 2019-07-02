@@ -12,13 +12,13 @@ namespace QIQO.Web.Api.Controllers
     {
         private readonly QIQOUserManager _userManager;
         private readonly SignInManager<User> _signinManager;
-        private readonly QIQORoleManager _roleManager;
+        // private readonly QIQORoleManager _roleManager;
 
         public AuthController(QIQOUserManager userManager, SignInManager<User> signinManager, QIQORoleManager roleManager)
         {
             _userManager = userManager;
             _signinManager = signinManager;
-            _roleManager = roleManager;
+            // _roleManager = roleManager;
         }
 
         [HttpGet("api/auth/test")]
@@ -27,7 +27,7 @@ namespace QIQO.Web.Api.Controllers
         [HttpPost("api/auth/authenticate")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            Microsoft.AspNetCore.Identity.SignInResult result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            var result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
                 return Ok(); // Json(new { Succeeded = true, Message = "Authentication succeeded" });
@@ -58,24 +58,24 @@ namespace QIQO.Web.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User() { Email = model.UserName, UserName = model.UserName };
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                var user = new User() { Email = model.UserName, UserName = model.UserName };
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    IdentityResult r_result = await _userManager.AddToRoleAsync(user, "Users");
+                    // var r_result = await _userManager.AddToRoleAsync(user, "Users");
                     await _signinManager.SignInAsync(user, true);
                     return Json(new { Succeeded = true, Message = "Registration succeeded" });
                 }
                 else
                 {
-                    foreach (IdentityError error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
-                    return Json(new { Succeeded = false, Message = "Registration failed", ModelState = ModelState });
+                    return Json(new { Succeeded = false, Message = "Registration failed", ModelState });
                 }
             }
-            return Json(new { Succeeded = false, Message = "Invalid fields in model", ModelState = ModelState });
+            return Json(new { Succeeded = false, Message = "Invalid fields in model", ModelState });
         }
     }
 }

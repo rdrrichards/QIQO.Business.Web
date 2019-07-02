@@ -26,12 +26,12 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    Invoice invoice = await proxy.GetInvoiceAsync(invoice_key);
-                    InvoiceViewModel invoice_vm = _entityService.Map(invoice);
+                    var invoice = await proxy.GetInvoiceAsync(invoice_key);
+                    var invoice_vm = _entityService.Map(invoice);
 
-                    foreach (InvoiceItem item in invoice.InvoiceItems)
+                    foreach (var item in invoice.InvoiceItems)
                         invoice_vm.InvoiceItems.Add(_entityService.Map(item));
 
                     return Json(invoice_vm);
@@ -48,10 +48,10 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    int invoice_key = await proxy.CreateInvoiceAsync(_entityService.Map(invoice)); // Save invoice
-                    Invoice new_invoice = await proxy.GetInvoiceAsync(invoice_key); // Get the new invoice and send it back to the client
+                    var invoice_key = await proxy.CreateInvoiceAsync(_entityService.Map(invoice)); // Save invoice
+                    var new_invoice = await proxy.GetInvoiceAsync(invoice_key); // Get the new invoice and send it back to the client
                     return Json(new_invoice);
                 }
             }
@@ -72,10 +72,10 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Invoice invoice = new Invoice() { InvoiceKey = invoice_key };
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                var invoice = new Invoice() { InvoiceKey = invoice_key };
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
-                    bool invoice_res = await proxy.DeleteInvoiceAsync(invoice); // delete invoice
+                    var invoice_res = await proxy.DeleteInvoiceAsync(invoice); // delete invoice
                     return Json(invoice_res);
                 }
             }
@@ -89,22 +89,22 @@ namespace QIQO.Business.Api.Controllers
         public async Task<IActionResult> GetAccountInvoices(int account_key)
         {
             List<Invoice> invs;
-            Account account = new Account() { AccountKey = account_key };
+            var account = new Account() { AccountKey = account_key };
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
                     //Task<List<Invoice>> invoice = proxy.GetInvoicesByAccountAsync(_entity_service.MapAccountViewModelToAccount(account));
                     invs = await proxy.GetInvoicesByAccountAsync(account);
                 }
 
-                List<InvoiceViewModel> acct_vms = new List<InvoiceViewModel>();
+                var acct_vms = new List<InvoiceViewModel>();
 
-                foreach (Invoice inv in invs)
+                foreach (var inv in invs)
                 {
-                    InvoiceViewModel invoice_vm = _entityService.Map(inv);
+                    var invoice_vm = _entityService.Map(inv);
 
-                    foreach (InvoiceItem item in inv.InvoiceItems)
+                    foreach (var item in inv.InvoiceItems)
                         invoice_vm.InvoiceItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(invoice_vm);
@@ -126,7 +126,7 @@ namespace QIQO.Business.Api.Controllers
             //var account = new Account() { AccountKey = account_key };
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
                     inv = await proxy.GetInvoiceAsync(invoice_key);
                 }
@@ -134,9 +134,9 @@ namespace QIQO.Business.Api.Controllers
                 if (inv.Account.AccountKey != account_key)
                     throw new InvalidOperationException("Invoice -> account access violation");
 
-                InvoiceViewModel invoice_vm = _entityService.Map(inv);
+                var invoice_vm = _entityService.Map(inv);
 
-                foreach (InvoiceItem item in inv.InvoiceItems)
+                foreach (var item in inv.InvoiceItems)
                     invoice_vm.InvoiceItems.Add(_entityService.Map(item));
 
                 return Json(invoice_vm);
@@ -152,21 +152,21 @@ namespace QIQO.Business.Api.Controllers
         public async Task<IActionResult> Get()
         {
             List<Invoice> invs;
-            Company company = new Company() { CompanyKey = 1 };
+            var company = new Company() { CompanyKey = 1 };
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
                     invs = await proxy.GetInvoicesByCompanyAsync(company);
                 }
 
-                List<InvoiceViewModel> acct_vms = new List<InvoiceViewModel>();
+                var acct_vms = new List<InvoiceViewModel>();
 
-                foreach (Invoice inv in invs)
+                foreach (var inv in invs)
                 {
-                    InvoiceViewModel invoice_vm = _entityService.Map(inv);
+                    var invoice_vm = _entityService.Map(inv);
 
-                    foreach (InvoiceItem item in inv.InvoiceItems)
+                    foreach (var item in inv.InvoiceItems)
                         invoice_vm.InvoiceItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(invoice_vm);
@@ -187,21 +187,21 @@ namespace QIQO.Business.Api.Controllers
             if (string.IsNullOrWhiteSpace(q)) return Json(new List<InvoiceViewModel>());
 
             List<Invoice> invs;
-            Company company = new Company() { CompanyKey = 1 };
+            var company = new Company() { CompanyKey = 1 };
             try
             {
-                using (IInvoiceService proxy = _serviceFactory.CreateClient<IInvoiceService>())
+                using (var proxy = _serviceFactory.CreateClient<IInvoiceService>())
                 {
                     invs = await proxy.FindInvoicesByCompanyAsync(company, q);
                 }
 
-                List<InvoiceViewModel> acct_vms = new List<InvoiceViewModel>();
+                var acct_vms = new List<InvoiceViewModel>();
 
-                foreach (Invoice inv in invs)
+                foreach (var inv in invs)
                 {
-                    InvoiceViewModel invoice_vm = _entityService.Map(inv);
+                    var invoice_vm = _entityService.Map(inv);
 
-                    foreach (InvoiceItem item in inv.InvoiceItems)
+                    foreach (var item in inv.InvoiceItems)
                         invoice_vm.InvoiceItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(invoice_vm);

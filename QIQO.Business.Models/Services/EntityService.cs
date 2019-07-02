@@ -17,17 +17,17 @@ namespace QIQO.Business.Services
         }
         public Order Map(OrderViewModel order_vm)
         {
-            IAccountService account_proxy = _service_fact.CreateClient<IAccountService>();
-            IOrderService order_proxy = _service_fact.CreateClient<IOrderService>();
-            IEmployeeService employee_service = _service_fact.CreateClient<IEmployeeService>();
+            var account_proxy = _service_fact.CreateClient<IAccountService>();
+            var order_proxy = _service_fact.CreateClient<IOrderService>();
+            var employee_service = _service_fact.CreateClient<IEmployeeService>();
 
-            Account account = account_proxy.GetAccountByCode(order_vm.AccountCode, "TCF");
-            int acct_cnt_key = account.Employees.Where(ct => ct.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault().EntityPersonKey;
+            var account = account_proxy.GetAccountByCode(order_vm.AccountCode, "TCF");
+            var acct_cnt_key = account.Employees.Where(ct => ct.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault().EntityPersonKey;
 
-            List<Representative> account_rep_list = new List<Representative>(employee_service.GetAccountRepsByCompany(1));
-            List<Representative> sales_rep_list = new List<Representative>(employee_service.GetSalesRepsByCompany(1));
+            var account_rep_list = new List<Representative>(employee_service.GetAccountRepsByCompany(1));
+            var sales_rep_list = new List<Representative>(employee_service.GetSalesRepsByCompany(1));
 
-            Order order = new Order()
+            var order = new Order()
             {
                 OrderKey = order_vm.OrderKey,
                 OrderEntryDate = order_vm.OrderEntryDate,
@@ -46,7 +46,7 @@ namespace QIQO.Business.Services
                 SalesRepKey = sales_rep_list[0].EntityPersonKey
             };
 
-            foreach (OrderItemViewModel item in order_vm.OrderItems)
+            foreach (var item in order_vm.OrderItems)
             {
                 order.OrderItems.Add(Map(item));
             }
@@ -64,7 +64,7 @@ namespace QIQO.Business.Services
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
 
-            OrderViewModel order_data = new OrderViewModel()
+            var order_data = new OrderViewModel()
             {
                 OrderKey = order.OrderKey,
                 OrderEntryDate = order.OrderEntryDate,
@@ -84,7 +84,7 @@ namespace QIQO.Business.Services
                 SalesRepName = order.SalesRep.PersonFullNameFML
             };
 
-            AccountPerson contact = order.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
+            var contact = order.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
             if (contact != null)
                 order_data.AccountContactName = contact.PersonFullNameFML;
 
@@ -93,13 +93,13 @@ namespace QIQO.Business.Services
 
         public OrderItem Map(OrderItemViewModel order_item_vm)
         {
-            IAddressService address_proxy = _service_fact.CreateClient<IAddressService>();
-            IProductService product_proxy = _service_fact.CreateClient<IProductService>();
-            IOrderService order_proxy = _service_fact.CreateClient<IOrderService>();
-            IEmployeeService employee_service = _service_fact.CreateClient<IEmployeeService>();
-            ITypeService type_service = _service_fact.CreateClient<ITypeService>();
+            var address_proxy = _service_fact.CreateClient<IAddressService>();
+            var product_proxy = _service_fact.CreateClient<IProductService>();
+            var order_proxy = _service_fact.CreateClient<IOrderService>();
+            var employee_service = _service_fact.CreateClient<IEmployeeService>();
+            var type_service = _service_fact.CreateClient<ITypeService>();
 
-            OrderItem orderItem = new OrderItem()
+            var orderItem = new OrderItem()
             {
                 OrderItemKey = order_item_vm.OrderItemKey,
                 OrderKey = order_item_vm.OrderKey,
@@ -134,7 +134,7 @@ namespace QIQO.Business.Services
         public OrderItemViewModel Map(OrderItem order_item)
         {
             //Console.WriteLine("MapOrderItemToOrderItemData begin");
-            OrderItemViewModel order_item_data = new OrderItemViewModel()
+            var order_item_data = new OrderItemViewModel()
             {
                 OrderItemKey = order_item.OrderItemKey,
                 OrderKey = order_item.OrderKey,
@@ -161,13 +161,13 @@ namespace QIQO.Business.Services
 
         public InvoiceItem Map(InvoiceItemViewModel invoice_item_vm)
         {
-            IAddressService address_proxy = _service_fact.CreateClient<IAddressService>();
-            IProductService product_proxy = _service_fact.CreateClient<IProductService>();
-            IInvoiceService invoice_proxy = _service_fact.CreateClient<IInvoiceService>();
-            IEmployeeService employee_service = _service_fact.CreateClient<IEmployeeService>();
-            ITypeService type_service = _service_fact.CreateClient<ITypeService>();
+            var address_proxy = _service_fact.CreateClient<IAddressService>();
+            var product_proxy = _service_fact.CreateClient<IProductService>();
+            var invoice_proxy = _service_fact.CreateClient<IInvoiceService>();
+            var employee_service = _service_fact.CreateClient<IEmployeeService>();
+            var type_service = _service_fact.CreateClient<ITypeService>();
 
-            InvoiceItem orderItem = new InvoiceItem()
+            var orderItem = new InvoiceItem()
             {
                 InvoiceItemKey = invoice_item_vm.InvoiceItemKey,
                 InvoiceKey = invoice_item_vm.InvoiceKey,
@@ -201,17 +201,17 @@ namespace QIQO.Business.Services
 
         public Invoice Map(InvoiceViewModel invoice_vm)
         {
-            IAccountService account_proxy = _service_fact.CreateClient<IAccountService>();
-            IInvoiceService invoice_proxy = _service_fact.CreateClient<IInvoiceService>();
-            IEmployeeService employee_service = _service_fact.CreateClient<IEmployeeService>();
+            var account_proxy = _service_fact.CreateClient<IAccountService>();
+            var invoice_proxy = _service_fact.CreateClient<IInvoiceService>();
+            var employee_service = _service_fact.CreateClient<IEmployeeService>();
 
-            Account account = account_proxy.GetAccountByCode(invoice_vm.AccountCode, "TCF");
-            int acct_cnt_key = account.Employees.Where(ct => ct.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault().EntityPersonKey;
+            var account = account_proxy.GetAccountByCode(invoice_vm.AccountCode, "TCF");
+            var acct_cnt_key = account.Employees.Where(ct => ct.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault().EntityPersonKey;
 
-            List<Representative> account_rep_list = new List<Representative>(employee_service.GetAccountRepsByCompany(1));
-            List<Representative> sales_rep_list = new List<Representative>(employee_service.GetSalesRepsByCompany(1));
+            var account_rep_list = new List<Representative>(employee_service.GetAccountRepsByCompany(1));
+            var sales_rep_list = new List<Representative>(employee_service.GetSalesRepsByCompany(1));
 
-            Invoice invoice = new Invoice()
+            var invoice = new Invoice()
             {
                 InvoiceKey = invoice_vm.InvoiceKey,
                 InvoiceEntryDate = invoice_vm.InvoiceEntryDate,
@@ -230,7 +230,7 @@ namespace QIQO.Business.Services
                 SalesRepKey = sales_rep_list[0].EntityPersonKey
             };
 
-            foreach (InvoiceItemViewModel item in invoice_vm.InvoiceItems)
+            foreach (var item in invoice_vm.InvoiceItems)
             {
                 invoice.InvoiceItems.Add(Map(item));
             }
@@ -247,7 +247,7 @@ namespace QIQO.Business.Services
             if (invoice == null)
                 throw new ArgumentNullException(nameof(invoice));
 
-            InvoiceViewModel invoice_data = new InvoiceViewModel()
+            var invoice_data = new InvoiceViewModel()
             {
                 InvoiceKey = invoice.InvoiceKey,
                 InvoiceEntryDate = invoice.InvoiceEntryDate,
@@ -267,7 +267,7 @@ namespace QIQO.Business.Services
                 SalesRepName = invoice.SalesRep.PersonFullNameFML
             };
 
-            AccountPerson contact = invoice.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
+            var contact = invoice.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
             if (contact != null)
                 invoice_data.AccountContactName = contact.PersonFullNameFML;
 
@@ -276,7 +276,7 @@ namespace QIQO.Business.Services
 
         public InvoiceItemViewModel Map(InvoiceItem invoice_item)
         {
-            InvoiceItemViewModel invoice_item_data = new InvoiceItemViewModel()
+            var invoice_item_data = new InvoiceItemViewModel()
             {
                 InvoiceKey = invoice_item.InvoiceKey,
                 InvoiceItemSeq = invoice_item.InvoiceItemSeq,
@@ -302,7 +302,7 @@ namespace QIQO.Business.Services
 
         public AddressViewModel Map(Address address)
         {
-            AddressViewModel address_data = new AddressViewModel()
+            var address_data = new AddressViewModel()
             {
                 AddressKey = address.AddressKey,
                 //AddressTypeKey = (int)address.AddressType,
@@ -327,7 +327,7 @@ namespace QIQO.Business.Services
 
         public AccountViewModel Map(Account account)
         {
-            AccountViewModel account_data = new AccountViewModel()
+            var account_data = new AccountViewModel()
             {
                 AccountKey = account.AccountKey,
                 CompanyKey = account.CompanyKey,
@@ -346,7 +346,7 @@ namespace QIQO.Business.Services
 
         public Account Map(AccountViewModel account_vm)
         {
-            Account account_data = new Account()
+            var account_data = new Account()
             {
                 AccountKey = account_vm.AccountKey,
                 CompanyKey = account_vm.CompanyKey,

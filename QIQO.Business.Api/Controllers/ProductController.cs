@@ -33,7 +33,7 @@ namespace QIQO.Business.Api.Controllers
         [HttpGet("api/products")]
         public async Task<IActionResult> Get(int page = 0, int psize = 10, string orderby = "productName", string category = "all")
         {
-            string route = "api/products";
+            var route = "api/products";
             List<Product> prods;
 
             if (psize <= 0) psize = 10;
@@ -42,15 +42,15 @@ namespace QIQO.Business.Api.Controllers
             {
                 if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
                         prods = await proxy.GetProductsAsync(company);
                     }
 
-                    foreach (Product prod in prods)
+                    foreach (var prod in prods)
                     {
                         pvms.Add(_entityService.Map(prod));
                     }
@@ -76,17 +76,17 @@ namespace QIQO.Business.Api.Controllers
                         break;
                 }
 
-                List<ProductViewModel> filteredQuery = baseQuery.Where(p => p.ProductType == (category == "all" ? p.ProductType : category)).ToList();
+                var filteredQuery = baseQuery.Where(p => p.ProductType == (category == "all" ? p.ProductType : category)).ToList();
 
-                int totalCount = filteredQuery.Count;
-                decimal totalPages = Math.Ceiling((decimal)totalCount / psize);
+                var totalCount = filteredQuery.Count;
+                var totalPages = Math.Ceiling((decimal)totalCount / psize);
 
                 //var prevUrl = page > 0 ? _urlHelper.Link("Product", new { controller = "product", page = page - 1, orderby = orderby, category = category }) : "";
                 //var nextUrl = page < totalPages - 1 ? _urlHelper.Link("Product", new { page = page + 1, orderby = orderby, category = category }) : "";
-                string prevUrl = page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
-                string nextUrl = page <= totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
+                var prevUrl = page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
+                var nextUrl = page <= totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
 
-                List<ProductViewModel> results = filteredQuery.Skip(psize * (page - 1))
+                var results = filteredQuery.Skip(psize * (page - 1))
                                        .Take(psize)
                                        .ToList();
 
@@ -119,7 +119,7 @@ namespace QIQO.Business.Api.Controllers
             {
                 Product prod;
 
-                using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
                     prod = await proxy.GetProductAsync(product_key);
                 }
@@ -142,10 +142,10 @@ namespace QIQO.Business.Api.Controllers
                 Debug.WriteLine(product.ProductLongDesc);
                 try
                 {
-                    Product pvm = _entityService.Map(product);
-                    using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                    var pvm = _entityService.Map(product);
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
-                        int return_val = await proxy.CreateProductAsync(pvm);
+                        var return_val = await proxy.CreateProductAsync(pvm);
                         return Json(return_val);
                     }
                 }
@@ -174,11 +174,11 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Product pvm = new Product() { ProductKey = product_key };
+                var pvm = new Product() { ProductKey = product_key };
 
-                using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                using (var proxy = _serviceFactory.CreateClient<IProductService>())
                 {
-                    bool return_val = await proxy.DeleteProductAsync(pvm);
+                    var return_val = await proxy.DeleteProductAsync(pvm);
                     return Json(return_val);
                 }
             }
@@ -196,23 +196,23 @@ namespace QIQO.Business.Api.Controllers
             Debug.WriteLine(q);
             List<Product> prods;
             int psize = 50, page = 0;
-            string route = "api/products";
-            string category = "all";
-            string orderby = "productName";
+            var route = "api/products";
+            var category = "all";
+            var orderby = "productName";
 
             try
             {
                 if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
                         prods = await proxy.GetProductsAsync(company);
                     }
 
-                    foreach (Product prod in prods)
+                    foreach (var prod in prods)
                     {
                         pvms.Add(_entityService.Map(prod));
                     }
@@ -220,18 +220,18 @@ namespace QIQO.Business.Api.Controllers
                 }
 
                 //Debug.WriteLine(pvms.Count);
-                List<ProductViewModel> baseQuery = pvms.OrderBy(p => p.ProductName).ToList();
+                var baseQuery = pvms.OrderBy(p => p.ProductName).ToList();
                 //Debug.WriteLine(baseQuery.Count);
-                List<ProductViewModel> filteredQuery = baseQuery.Where(p => p.ProductName.ToLower().Contains(q.ToLower()) || p.ProductDesc.ToLower().Contains(q.ToLower())).ToList();
+                var filteredQuery = baseQuery.Where(p => p.ProductName.ToLower().Contains(q.ToLower()) || p.ProductDesc.ToLower().Contains(q.ToLower())).ToList();
                 //Debug.WriteLine(filteredQuery.Count);
 
-                int totalCount = filteredQuery.Count;
-                decimal totalPages = Math.Ceiling((decimal)totalCount / psize);
+                var totalCount = filteredQuery.Count;
+                var totalPages = Math.Ceiling((decimal)totalCount / psize);
 
-                string prevUrl = page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
-                string nextUrl = page <= totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
+                var prevUrl = page > 0 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page - 1}&{nameof(orderby)}={orderby}" : "";
+                var nextUrl = page <= totalPages - 1 ? $"{baseUrl}{route}?{nameof(category)}={category}&{nameof(page)}={page + 1}&{nameof(orderby)}={orderby}" : "";
 
-                List<ProductViewModel> results = filteredQuery.Skip(psize * page)
+                var results = filteredQuery.Skip(psize * page)
                                        .Take(psize)
                                        .ToList();
 
@@ -266,15 +266,15 @@ namespace QIQO.Business.Api.Controllers
             {
                 if (!_memoryCache.TryGetValue(prodCacheKey, out List<ProductViewModel> pvms))
                 {
-                    Company company = new Company() { CompanyKey = 1 };
+                    var company = new Company() { CompanyKey = 1 };
                     pvms = new List<ProductViewModel>();
 
-                    using (IProductService proxy = _serviceFactory.CreateClient<IProductService>())
+                    using (var proxy = _serviceFactory.CreateClient<IProductService>())
                     {
                         prods = await proxy.GetProductsAsync(company);
                     }
 
-                    foreach (Product prod in prods)
+                    foreach (var prod in prods)
                     {
                         pvms.Add(_entityService.Map(prod));
                     }
@@ -282,20 +282,20 @@ namespace QIQO.Business.Api.Controllers
                 }
 
                 //Debug.WriteLine(pvms.Count);
-                List<ProductViewModel> baseQuery = pvms.OrderBy(p => p.ProductName).ToList();
+                var baseQuery = pvms.OrderBy(p => p.ProductName).ToList();
                 //Debug.WriteLine(baseQuery.Count);
-                List<ProductViewModel> filteredQuery = baseQuery.Where(p => p.ProductLastUpdated >= DateTime.Now.AddDays(-90)).ToList();
+                var filteredQuery = baseQuery.Where(p => p.ProductLastUpdated >= DateTime.Now.AddDays(-90)).ToList();
                 //Debug.WriteLine(filteredQuery.Count);
 
-                int totalCount = filteredQuery.Count;
-                decimal totalPages = Math.Ceiling((decimal)totalCount / psize);
+                var totalCount = filteredQuery.Count;
+                var totalPages = Math.Ceiling((decimal)totalCount / psize);
 
                 //var prevUrl = page > 0 ? _urlHelper.Link("Product", new { controller = "product", page = page - 1, orderby = orderby, category = category }) : "";
                 //var nextUrl = page < totalPages - 1 ? _urlHelper.Link("Product", new { page = page + 1, orderby = orderby, category = category }) : "";
-                string prevUrl = "";
-                string nextUrl = "";
+                var prevUrl = "";
+                var nextUrl = "";
 
-                List<ProductViewModel> results = filteredQuery.Skip(psize * page)
+                var results = filteredQuery.Skip(psize * page)
                                        .Take(psize)
                                        .ToList();
 

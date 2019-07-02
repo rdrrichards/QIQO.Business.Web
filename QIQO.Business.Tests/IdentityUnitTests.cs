@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Test;
-using Moq;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
 using System;
@@ -31,15 +30,15 @@ namespace QIQO.Business.Tests
         public async Task CreateCallsStore()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.CreateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.UserName)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.CreateAsync(user);
+            var result = await userManager.CreateAsync(user);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -50,17 +49,17 @@ namespace QIQO.Business.Tests
         public async Task CreateCallsUpdateEmailStore()
         {
             // Setup
-            Mock<IUserEmailStore<User>> store = new Mock<IUserEmailStore<User>>();
-            User user = new User { UserName = "Foo", Email = "Foo@foo.com" };
+            var store = new Mock<IUserEmailStore<User>>();
+            var user = new User { UserName = "Foo", Email = "Foo@foo.com" };
             store.Setup(s => s.CreateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.UserName)).Verifiable();
             store.Setup(s => s.GetEmailAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.Email)).Verifiable();
             store.Setup(s => s.SetNormalizedEmailAsync(user, user.Email.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.CreateAsync(user);
+            var result = await userManager.CreateAsync(user);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -71,13 +70,13 @@ namespace QIQO.Business.Tests
         public async Task DeleteCallsStore()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.DeleteAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.DeleteAsync(user);
+            var result = await userManager.DeleteAsync(user);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -88,15 +87,15 @@ namespace QIQO.Business.Tests
         public async Task UpdateCallsStore()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.UserName)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.UpdateAsync(user);
+            var result = await userManager.UpdateAsync(user);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -107,17 +106,17 @@ namespace QIQO.Business.Tests
         public async Task UpdateWillUpdateNormalizedEmail()
         {
             // Setup
-            Mock<IUserEmailStore<User>> store = new Mock<IUserEmailStore<User>>();
-            User user = new User { UserName = "Foo", Email = "email" };
+            var store = new Mock<IUserEmailStore<User>>();
+            var user = new User { UserName = "Foo", Email = "email" };
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.UserName)).Verifiable();
             store.Setup(s => s.GetEmailAsync(user, CancellationToken.None)).Returns(Task.FromResult(user.Email)).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.SetNormalizedEmailAsync(user, user.Email.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.UpdateAsync(user);
+            var result = await userManager.UpdateAsync(user);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -128,16 +127,16 @@ namespace QIQO.Business.Tests
         public async Task SetUserNameCallsStore()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User();
+            var store = new Mock<IUserStore<User>>();
+            var user = new User();
             store.Setup(s => s.SetUserNameAsync(user, "foo", CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.GetUserNameAsync(user, CancellationToken.None)).Returns(Task.FromResult("foo")).Verifiable();
             store.Setup(s => s.SetNormalizedUserNameAsync(user, "FOO", CancellationToken.None)).Returns(Task.FromResult(0)).Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).Returns(Task.FromResult(IdentityResult.Success)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.SetUserNameAsync(user, "foo");
+            var result = await userManager.SetUserNameAsync(user, "foo");
 
             // Assert
             Assert.True(result.Succeeded);
@@ -148,13 +147,13 @@ namespace QIQO.Business.Tests
         public async Task FindByIdCallsStore()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.FindByIdAsync(user.UserId.ToString(), CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            User result = await userManager.FindByIdAsync(user.UserId.ToString());
+            var result = await userManager.FindByIdAsync(user.UserId.ToString());
 
             // Assert
             Assert.Equal(user, result);
@@ -165,13 +164,13 @@ namespace QIQO.Business.Tests
         public async Task FindByNameCallsStoreWithNormalizedName()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.FindByNameAsync(user.UserName.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            User result = await userManager.FindByNameAsync(user.UserName);
+            var result = await userManager.FindByNameAsync(user.UserName);
 
             // Assert
             Assert.Equal(user, result);
@@ -182,14 +181,14 @@ namespace QIQO.Business.Tests
         public async Task CanFindByNameCallsStoreWithoutNormalizedName()
         {
             // Setup
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
-            User user = new User { UserName = "Foo" };
+            var store = new Mock<IUserStore<User>>();
+            var user = new User { UserName = "Foo" };
             store.Setup(s => s.FindByNameAsync(user.UserName, CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
             userManager.KeyNormalizer = null;
 
             // Act
-            User result = await userManager.FindByNameAsync(user.UserName);
+            var result = await userManager.FindByNameAsync(user.UserName);
 
             // Assert
             Assert.Equal(user, result);
@@ -200,13 +199,13 @@ namespace QIQO.Business.Tests
         public async Task FindByEmailCallsStoreWithNormalizedEmail()
         {
             // Setup
-            Mock<IUserEmailStore<User>> store = new Mock<IUserEmailStore<User>>();
-            User user = new User { Email = "Foo" };
+            var store = new Mock<IUserEmailStore<User>>();
+            var user = new User { Email = "Foo" };
             store.Setup(s => s.FindByEmailAsync(user.Email.ToUpperInvariant(), CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            User result = await userManager.FindByEmailAsync(user.Email);
+            var result = await userManager.FindByEmailAsync(user.Email);
 
             // Assert
             Assert.Equal(user, result);
@@ -217,14 +216,14 @@ namespace QIQO.Business.Tests
         public async Task CanFindByEmailCallsStoreWithoutNormalizedEmail()
         {
             // Setup
-            Mock<IUserEmailStore<User>> store = new Mock<IUserEmailStore<User>>();
-            User user = new User { Email = "Foo" };
+            var store = new Mock<IUserEmailStore<User>>();
+            var user = new User { Email = "Foo" };
             store.Setup(s => s.FindByEmailAsync(user.Email, CancellationToken.None)).Returns(Task.FromResult(user)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
             userManager.KeyNormalizer = null;
 
             // Act
-            User result = await userManager.FindByEmailAsync(user.Email);
+            var result = await userManager.FindByEmailAsync(user.Email);
 
             // Assert
             Assert.Equal(user, result);
@@ -235,9 +234,9 @@ namespace QIQO.Business.Tests
         public async Task AddToRolesCallsStore()
         {
             // Setup
-            Mock<IUserRoleStore<User>> store = new Mock<IUserRoleStore<User>>();
-            User user = new User { UserName = "Foo" };
-            string[] roles = new string[] { "A", "B", "C", "C" };
+            var store = new Mock<IUserRoleStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var roles = new string[] { "A", "B", "C", "C" };
             store.Setup(s => s.AddToRoleAsync(user, "A", CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
@@ -258,10 +257,10 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "C", CancellationToken.None))
                 .Returns(Task.FromResult(false))
                 .Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.AddToRolesAsync(user, roles);
+            var result = await userManager.AddToRolesAsync(user, roles);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -273,19 +272,19 @@ namespace QIQO.Business.Tests
         public async Task AddToRolesFailsIfUserInRole()
         {
             // Setup
-            Mock<IUserRoleStore<User>> store = new Mock<IUserRoleStore<User>>();
-            User user = new User { UserName = "Foo" };
-            string[] roles = new[] { "A", "B", "C" };
+            var store = new Mock<IUserRoleStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var roles = new[] { "A", "B", "C" };
             store.Setup(s => s.AddToRoleAsync(user, "A", CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.IsInRoleAsync(user, "B", CancellationToken.None))
                 .Returns(Task.FromResult(true))
                 .Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.AddToRolesAsync(user, roles);
+            var result = await userManager.AddToRolesAsync(user, roles);
 
             // Assert
             IdentityResultAssert.IsFailure(result, new IdentityErrorDescriber().UserAlreadyInRole("B"));
@@ -296,9 +295,9 @@ namespace QIQO.Business.Tests
         public async Task RemoveFromRolesCallsStore()
         {
             // Setup
-            Mock<IUserRoleStore<User>> store = new Mock<IUserRoleStore<User>>();
-            User user = new User { UserName = "Foo" };
-            string[] roles = new[] { "A", "B", "C" };
+            var store = new Mock<IUserRoleStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var roles = new[] { "A", "B", "C" };
             store.Setup(s => s.RemoveFromRoleAsync(user, "A", CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
@@ -318,10 +317,10 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "C", CancellationToken.None))
                 .Returns(Task.FromResult(true))
                 .Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.RemoveFromRolesAsync(user, roles);
+            var result = await userManager.RemoveFromRolesAsync(user, roles);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -332,9 +331,9 @@ namespace QIQO.Business.Tests
         public async Task RemoveFromRolesFailsIfNotInRole()
         {
             // Setup
-            Mock<IUserRoleStore<User>> store = new Mock<IUserRoleStore<User>>();
-            User user = new User { UserName = "Foo" };
-            string[] roles = new string[] { "A", "B", "C" };
+            var store = new Mock<IUserRoleStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var roles = new string[] { "A", "B", "C" };
             store.Setup(s => s.RemoveFromRoleAsync(user, "A", CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
@@ -344,10 +343,10 @@ namespace QIQO.Business.Tests
             store.Setup(s => s.IsInRoleAsync(user, "B", CancellationToken.None))
                 .Returns(Task.FromResult(false))
                 .Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.RemoveFromRolesAsync(user, roles);
+            var result = await userManager.RemoveFromRolesAsync(user, roles);
 
             // Assert
             IdentityResultAssert.IsFailure(result, new IdentityErrorDescriber().UserNotInRole("B"));
@@ -358,17 +357,17 @@ namespace QIQO.Business.Tests
         public async Task AddClaimsCallsStore()
         {
             // Setup
-            Mock<IUserClaimStore<User>> store = new Mock<IUserClaimStore<User>>();
-            User user = new User { UserName = "Foo" };
-            Claim[] claims = new Claim[] { new Claim("1", "1"), new Claim("2", "2"), new Claim("3", "3") };
+            var store = new Mock<IUserClaimStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var claims = new Claim[] { new Claim("1", "1"), new Claim("2", "2"), new Claim("3", "3") };
             store.Setup(s => s.AddClaimsAsync(user, claims, CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.AddClaimsAsync(user, claims);
+            var result = await userManager.AddClaimsAsync(user, claims);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -379,17 +378,17 @@ namespace QIQO.Business.Tests
         public async Task AddClaimCallsStore()
         {
             // Setup
-            Mock<IUserClaimStore<User>> store = new Mock<IUserClaimStore<User>>();
-            User user = new User { UserName = "Foo" };
-            Claim claim = new Claim("1", "1");
+            var store = new Mock<IUserClaimStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var claim = new Claim("1", "1");
             store.Setup(s => s.AddClaimsAsync(user, It.IsAny<IEnumerable<Claim>>(), CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.AddClaimAsync(user, claim);
+            var result = await userManager.AddClaimAsync(user, claim);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -400,18 +399,18 @@ namespace QIQO.Business.Tests
         public async Task UpdateClaimCallsStore()
         {
             // Setup
-            Mock<IUserClaimStore<User>> store = new Mock<IUserClaimStore<User>>();
-            User user = new User { UserName = "Foo" };
-            Claim claim = new Claim("1", "1");
-            Claim newClaim = new Claim("1", "2");
+            var store = new Mock<IUserClaimStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var claim = new Claim("1", "1");
+            var newClaim = new Claim("1", "2");
             store.Setup(s => s.ReplaceClaimAsync(user, It.IsAny<Claim>(), It.IsAny<Claim>(), CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).Returns(Task.FromResult(IdentityResult.Success)).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.ReplaceClaimAsync(user, claim, newClaim);
+            var result = await userManager.ReplaceClaimAsync(user, claim, newClaim);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -422,12 +421,12 @@ namespace QIQO.Business.Tests
         public async Task CheckPasswordWillRehashPasswordWhenNeeded()
         {
             // Setup
-            Mock<IUserPasswordStore<User>> store = new Mock<IUserPasswordStore<User>>();
-            Mock<IPasswordHasher<User>> hasher = new Mock<IPasswordHasher<User>>();
-            User user = new User { UserName = "Foo" };
-            string pwd = "password";
-            string hashed = "hashed";
-            string rehashed = "rehashed";
+            var store = new Mock<IUserPasswordStore<User>>();
+            var hasher = new Mock<IPasswordHasher<User>>();
+            var user = new User { UserName = "Foo" };
+            var pwd = "password";
+            var hashed = "hashed";
+            var rehashed = "rehashed";
 
             store.Setup(s => s.GetPasswordHashAsync(user, CancellationToken.None))
                 .ReturnsAsync(hashed)
@@ -437,11 +436,11 @@ namespace QIQO.Business.Tests
 
             hasher.Setup(s => s.VerifyHashedPassword(user, hashed, pwd)).Returns(PasswordVerificationResult.SuccessRehashNeeded).Verifiable();
             hasher.Setup(s => s.HashPassword(user, pwd)).Returns(rehashed).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
             userManager.PasswordHasher = hasher.Object;
 
             // Act
-            bool result = await userManager.CheckPasswordAsync(user, pwd);
+            var result = await userManager.CheckPasswordAsync(user, pwd);
 
             // Assert
             Assert.True(result);
@@ -454,17 +453,17 @@ namespace QIQO.Business.Tests
         public async Task RemoveClaimsCallsStore()
         {
             // Setup
-            Mock<IUserClaimStore<User>> store = new Mock<IUserClaimStore<User>>();
-            User user = new User { UserName = "Foo" };
-            Claim[] claims = new Claim[] { new Claim("1", "1"), new Claim("2", "2"), new Claim("3", "3") };
+            var store = new Mock<IUserClaimStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var claims = new Claim[] { new Claim("1", "1"), new Claim("2", "2"), new Claim("3", "3") };
             store.Setup(s => s.RemoveClaimsAsync(user, claims, CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.RemoveClaimsAsync(user, claims);
+            var result = await userManager.RemoveClaimsAsync(user, claims);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -475,17 +474,17 @@ namespace QIQO.Business.Tests
         public async Task RemoveClaimCallsStore()
         {
             // Setup
-            Mock<IUserClaimStore<User>> store = new Mock<IUserClaimStore<User>>();
-            User user = new User { UserName = "Foo" };
-            Claim claim = new Claim("1", "1");
+            var store = new Mock<IUserClaimStore<User>>();
+            var user = new User { UserName = "Foo" };
+            var claim = new Claim("1", "1");
             store.Setup(s => s.RemoveClaimsAsync(user, It.IsAny<IEnumerable<Claim>>(), CancellationToken.None))
                 .Returns(Task.FromResult(0))
                 .Verifiable();
             store.Setup(s => s.UpdateAsync(user, CancellationToken.None)).ReturnsAsync(IdentityResult.Success).Verifiable();
-            QIQOUserManager userManager = MockHelpers.TestUserManager(store.Object);
+            var userManager = MockHelpers.TestUserManager(store.Object);
 
             // Act
-            IdentityResult result = await userManager.RemoveClaimAsync(user, claim);
+            var result = await userManager.RemoveClaimAsync(user, claim);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -495,14 +494,14 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task CheckPasswordWithNullUserReturnsFalse()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new EmptyStore());
+            var manager = MockHelpers.TestUserManager(new EmptyStore());
             Assert.False(await manager.CheckPasswordAsync(null, "whatevs"));
         }
 
         [Fact]
         public async Task UsersEmailMethodsFailWhenStoreNotImplemented()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             Assert.False(manager.SupportsUserEmail);
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.FindByEmailAsync(null));
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.SetEmailAsync(null, null));
@@ -514,7 +513,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task UsersPhoneNumberMethodsFailWhenStoreNotImplemented()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             Assert.False(manager.SupportsUserPhoneNumber);
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.SetPhoneNumberAsync(null, null));
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.SetPhoneNumberAsync(null, null));
@@ -524,8 +523,8 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task TokenMethodsThrowWithNoTokenProvider()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
-            User user = new User();
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var user = new User();
             await Assert.ThrowsAsync<NotSupportedException>(
                 async () => await manager.GenerateUserTokenAsync(user, "bogus", null));
             await Assert.ThrowsAsync<NotSupportedException>(
@@ -535,7 +534,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task PasswordMethodsFailWhenStoreNotImplemented()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             Assert.False(manager.SupportsUserPassword);
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.CreateAsync(null, null));
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.ChangePasswordAsync(null, null, null));
@@ -548,9 +547,9 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task SecurityStampMethodsFailWhenStoreNotImplemented()
         {
-            Mock<IUserStore<User>> store = new Mock<IUserStore<User>>();
+            var store = new Mock<IUserStore<User>>();
             store.Setup(x => x.GetUserIdAsync(It.IsAny<User>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Guid.NewGuid().ToString()));
-            QIQOUserManager manager = MockHelpers.TestUserManager(store.Object);
+            var manager = MockHelpers.TestUserManager(store.Object);
             Assert.False(manager.SupportsUserSecurityStamp);
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.UpdateSecurityStampAsync(null));
             await Assert.ThrowsAsync<NotSupportedException>(() => manager.GetSecurityStampAsync(null));
@@ -563,7 +562,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task LoginMethodsFailWhenStoreNotImplemented()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             Assert.False(manager.SupportsUserLogin);
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.AddLoginAsync(null, null));
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.RemoveLoginAsync(null, null, null));
@@ -574,7 +573,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task ClaimMethodsFailWhenStoreNotImplemented()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             Assert.False(manager.SupportsUserClaim);
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.AddClaimAsync(null, null));
             await Assert.ThrowsAsync<NotSupportedException>(async () => await manager.ReplaceClaimAsync(null, null, null));
@@ -604,14 +603,14 @@ namespace QIQO.Business.Tests
 
         private async Task VerifyException<TException>(Func<Task> code, string expectedMessage) where TException : Exception
         {
-            TException error = await Assert.ThrowsAsync<TException>(code);
+            var error = await Assert.ThrowsAsync<TException>(code);
             Assert.Equal(expectedMessage, error.Message);
         }
 
         [Fact]
         public void DisposeAfterDisposeDoesNotThrow()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             manager.Dispose();
             manager.Dispose();
         }
@@ -620,7 +619,7 @@ namespace QIQO.Business.Tests
         public async Task PasswordValidatorBlocksCreate()
         {
             // TODO: Can switch to Mock eventually
-            QIQOUserManager manager = MockHelpers.TestUserManager(new EmptyStore());
+            var manager = MockHelpers.TestUserManager(new EmptyStore());
             manager.PasswordValidators.Clear();
             manager.PasswordValidators.Add(new BadPasswordValidator<User>());
             IdentityResultAssert.IsFailure(await manager.CreateAsync(new User(), "password"),
@@ -630,13 +629,13 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task ResetTokenCallNoopForTokenValueZero()
         {
-            User user = new User() { UserName = Guid.NewGuid().ToString() };
-            Mock<IUserLockoutStore<User>> store = new Mock<IUserLockoutStore<User>>();
+            var user = new User() { UserName = Guid.NewGuid().ToString() };
+            var store = new Mock<IUserLockoutStore<User>>();
             store.Setup(x => x.ResetAccessFailedCountAsync(user, It.IsAny<CancellationToken>())).Returns(() =>
             {
                 throw new Exception();
             });
-            QIQOUserManager manager = MockHelpers.TestUserManager(store.Object);
+            var manager = MockHelpers.TestUserManager(store.Object);
 
             IdentityResultAssert.IsSuccess(await manager.ResetAccessFailedCountAsync(user));
         }
@@ -647,7 +646,7 @@ namespace QIQO.Business.Tests
             Assert.Throws<ArgumentNullException>("store",
                 () => new UserManager<User>(null, null, null, null, null, null, null, null, null));
 
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NotImplementedStore());
+            var manager = MockHelpers.TestUserManager(new NotImplementedStore());
 
             await Assert.ThrowsAsync<ArgumentNullException>("user", async () => await manager.CreateAsync(null));
             await Assert.ThrowsAsync<ArgumentNullException>("user", async () => await manager.CreateAsync(null, null));
@@ -674,7 +673,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task MethodsFailWithUnknownUserTest()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new EmptyStore());
+            var manager = MockHelpers.TestUserManager(new EmptyStore());
             manager.RegisterTokenProvider("whatever", new NoOpTokenProvider());
             await Assert.ThrowsAsync<ArgumentNullException>("user",
                 async () => await manager.GetUserNameAsync(null));
@@ -775,7 +774,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public async Task MethodsThrowWhenDisposedTest()
         {
-            QIQOUserManager manager = MockHelpers.TestUserManager(new NoopUserStore());
+            var manager = MockHelpers.TestUserManager(new NoopUserStore());
             manager.Dispose();
             await Assert.ThrowsAsync<ObjectDisposedException>(() => manager.AddClaimAsync(null, null));
             await Assert.ThrowsAsync<ObjectDisposedException>(() => manager.AddClaimsAsync(null, null));

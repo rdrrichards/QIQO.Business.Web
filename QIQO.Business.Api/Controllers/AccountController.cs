@@ -36,26 +36,26 @@ namespace QIQO.Business.Api.Controllers
             //if (usr == null) return BadRequest();
             try
             {
-                Company company = new Company() { CompanyKey = 2 };
+                var company = new Company() { CompanyKey = 2 };
                 List<Account> accts;
 
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
                     accts = await proxy.GetAccountsByCompanyAsync(company);
                 }
 
-                List<AccountViewModel> acct_vms = new List<AccountViewModel>();
-                foreach (Account acct in accts)
+                var acct_vms = new List<AccountViewModel>();
+                foreach (var acct in accts)
                 {
-                    AccountViewModel acct_vm = _entityService.Map(acct);
+                    var acct_vm = _entityService.Map(acct);
 
-                    foreach (EntityAttribute att in acct.AccountAttributes)
+                    foreach (var att in acct.AccountAttributes)
                         acct_vm.Attributes.Add(_entityService.Map(att));
 
-                    foreach (Address addr in acct.Addresses)
+                    foreach (var addr in acct.Addresses)
                         acct_vm.Addresses.Add(_entityService.Map(addr));
 
-                    foreach (AccountPerson emp in acct.Employees)
+                    foreach (var emp in acct.Employees)
                         acct_vm.Employees.Add(_entityService.Map(emp));
 
                     acct_vms.Add(acct_vm);
@@ -75,27 +75,27 @@ namespace QIQO.Business.Api.Controllers
             if (q == "") return Json(new List<AccountViewModel>());
             try
             {
-                Company company = new Company() { CompanyKey = 1 };
+                var company = new Company() { CompanyKey = 1 };
                 List<Account> accts;
 
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
                     accts = await proxy.FindAccountByCompanyAsync(company, q);
                 }
 
-                List<AccountViewModel> acct_vms = new List<AccountViewModel>();
+                var acct_vms = new List<AccountViewModel>();
 
-                foreach (Account acct in accts)
+                foreach (var acct in accts)
                 {
-                    AccountViewModel acct_vm = _entityService.Map(acct);
+                    var acct_vm = _entityService.Map(acct);
 
-                    foreach (EntityAttribute att in acct.AccountAttributes)
+                    foreach (var att in acct.AccountAttributes)
                         acct_vm.Attributes.Add(_entityService.Map(att));
 
-                    foreach (Address addr in acct.Addresses)
+                    foreach (var addr in acct.Addresses)
                         acct_vm.Addresses.Add(_entityService.Map(addr));
 
-                    foreach (AccountPerson emp in acct.Employees)
+                    foreach (var emp in acct.Employees)
                         acct_vm.Employees.Add(_entityService.Map(emp));
 
                     acct_vms.Add(acct_vm);
@@ -117,20 +117,20 @@ namespace QIQO.Business.Api.Controllers
             {
                 Account acct;
 
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
                     acct = await proxy.GetAccountByIDAsync(account_key, true);
                 }
 
-                AccountViewModel acct_vm = _entityService.Map(acct);
+                var acct_vm = _entityService.Map(acct);
 
-                foreach (EntityAttribute att in acct.AccountAttributes)
+                foreach (var att in acct.AccountAttributes)
                     acct_vm.Attributes.Add(_entityService.Map(att));
 
-                foreach (Address addr in acct.Addresses)
+                foreach (var addr in acct.Addresses)
                     acct_vm.Addresses.Add(_entityService.Map(addr));
 
-                foreach (AccountPerson emp in acct.Employees)
+                foreach (var emp in acct.Employees)
                     acct_vm.Employees.Add(_entityService.Map(emp));
 
                 return Json(acct_vm);
@@ -147,9 +147,9 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    int return_val = await proxy.CreateAccountAsync(_entityService.Map(account));
+                    var return_val = await proxy.CreateAccountAsync(_entityService.Map(account));
                     return Json(return_val);
                 }
             }
@@ -172,10 +172,10 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Account account = new Account() { AccountKey = account_key };
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                var account = new Account() { AccountKey = account_key };
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
-                    bool return_val = await proxy.DeleteAccountAsync(account);
+                    var return_val = await proxy.DeleteAccountAsync(account);
                     return Json(return_val);
                 }
             }
@@ -189,29 +189,29 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Company company = new Company() { CompanyKey = 1 };
+                var company = new Company() { CompanyKey = 1 };
                 List<Account> accts;
 
-                using (IAccountService proxy = _serviceFactory.CreateClient<IAccountService>())
+                using (var proxy = _serviceFactory.CreateClient<IAccountService>())
                 {
                     accts = await proxy.GetAccountsByCompanyAsync(company);
                 }
 
-                List<AccountViewModel> acct_vms = new List<AccountViewModel>();
+                var acct_vms = new List<AccountViewModel>();
 
-                List<Account> recent_accts = accts.Where(a => a.UpdateDateTime >= DateTime.Now.AddDays(-90)).ToList();
+                var recent_accts = accts.Where(a => a.UpdateDateTime >= DateTime.Now.AddDays(-90)).ToList();
 
-                foreach (Account acct in recent_accts)
+                foreach (var acct in recent_accts)
                 {
-                    AccountViewModel acct_vm = _entityService.Map(acct);
+                    var acct_vm = _entityService.Map(acct);
 
-                    foreach (EntityAttribute att in acct.AccountAttributes)
+                    foreach (var att in acct.AccountAttributes)
                         acct_vm.Attributes.Add(_entityService.Map(att));
 
-                    foreach (Address addr in acct.Addresses)
+                    foreach (var addr in acct.Addresses)
                         acct_vm.Addresses.Add(_entityService.Map(addr));
 
-                    foreach (AccountPerson emp in acct.Employees)
+                    foreach (var emp in acct.Employees)
                         acct_vm.Employees.Add(_entityService.Map(emp));
 
                     acct_vms.Add(acct_vm);

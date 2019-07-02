@@ -27,14 +27,14 @@ namespace QIQO.Business.Api.Controllers
             Order ord;
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     ord = await proxy.GetOrderAsync(order_key);
                 }
 
-                OrderViewModel order_vm = _entityService.Map(ord);
+                var order_vm = _entityService.Map(ord);
 
-                foreach (OrderItem item in ord.OrderItems)
+                foreach (var item in ord.OrderItems)
                     order_vm.OrderItems.Add(_entityService.Map(item));
 
                 return Json(order_vm);
@@ -50,10 +50,10 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    int order_key = await proxy.CreateOrderAsync(_entityService.Map(order)); // Save order
-                    Order new_order = await proxy.GetOrderAsync(order_key); // Get the new order and send it back to the client
+                    var order_key = await proxy.CreateOrderAsync(_entityService.Map(order)); // Save order
+                    var new_order = await proxy.GetOrderAsync(order_key); // Get the new order and send it back to the client
                     return Json(new_order);
                 }
             }
@@ -74,10 +74,10 @@ namespace QIQO.Business.Api.Controllers
         {
             try
             {
-                Order order = new Order() { OrderKey = order_key };
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                var order = new Order() { OrderKey = order_key };
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
-                    bool order_res = await proxy.DeleteOrderAsync(order); // delete order
+                    var order_res = await proxy.DeleteOrderAsync(order); // delete order
                     return Json(order_res);
                 }
             }
@@ -91,22 +91,22 @@ namespace QIQO.Business.Api.Controllers
         public async Task<IActionResult> GetAccountOrders(int account_key)
         {
             List<Order> ords;
-            Account account = new Account() { AccountKey = account_key };
+            var account = new Account() { AccountKey = account_key };
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     //Task<List<Order>> order = proxy.GetOrdersByAccountAsync(_entity_service.MapAccountViewModelToAccount(account));
                     ords = await proxy.GetOrdersByAccountAsync(account);
                 }
 
-                List<OrderViewModel> acct_vms = new List<OrderViewModel>();
+                var acct_vms = new List<OrderViewModel>();
 
-                foreach (Order ord in ords)
+                foreach (var ord in ords)
                 {
-                    OrderViewModel order_vm = _entityService.Map(ord);
+                    var order_vm = _entityService.Map(ord);
 
-                    foreach (OrderItem item in ord.OrderItems)
+                    foreach (var item in ord.OrderItems)
                         order_vm.OrderItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(order_vm);
@@ -128,7 +128,7 @@ namespace QIQO.Business.Api.Controllers
             //var account = new Account() { AccountKey = account_key };
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     ord = await proxy.GetOrderAsync(order_key);
                 }
@@ -136,9 +136,9 @@ namespace QIQO.Business.Api.Controllers
                 if (ord.Account.AccountKey != account_key)
                     throw new InvalidOperationException("Order -> account access violation");
 
-                OrderViewModel order_vm = _entityService.Map(ord);
+                var order_vm = _entityService.Map(ord);
 
-                foreach (OrderItem item in ord.OrderItems)
+                foreach (var item in ord.OrderItems)
                     order_vm.OrderItems.Add(_entityService.Map(item));
 
                 return Json(order_vm);
@@ -154,21 +154,21 @@ namespace QIQO.Business.Api.Controllers
         public async Task<IActionResult> Get()
         {
             List<Order> ords;
-            Company company = new Company() { CompanyKey = 1 };
+            var company = new Company() { CompanyKey = 1 };
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     ords = await proxy.GetOrdersByCompanyAsync(company);
                 }
 
-                List<OrderViewModel> acct_vms = new List<OrderViewModel>();
+                var acct_vms = new List<OrderViewModel>();
 
-                foreach (Order ord in ords)
+                foreach (var ord in ords)
                 {
-                    OrderViewModel order_vm = _entityService.Map(ord);
+                    var order_vm = _entityService.Map(ord);
 
-                    foreach (OrderItem item in ord.OrderItems)
+                    foreach (var item in ord.OrderItems)
                         order_vm.OrderItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(order_vm);
@@ -189,21 +189,21 @@ namespace QIQO.Business.Api.Controllers
             if (string.IsNullOrWhiteSpace(q)) return Json(new List<OrderViewModel>());
 
             List<Order> ords;
-            Company company = new Company() { CompanyKey = 1 };
+            var company = new Company() { CompanyKey = 1 };
             try
             {
-                using (IOrderService proxy = _serviceFactory.CreateClient<IOrderService>())
+                using (var proxy = _serviceFactory.CreateClient<IOrderService>())
                 {
                     ords = await proxy.FindOrdersByCompanyAsync(company, q);
                 }
 
-                List<OrderViewModel> acct_vms = new List<OrderViewModel>();
+                var acct_vms = new List<OrderViewModel>();
 
-                foreach (Order ord in ords)
+                foreach (var ord in ords)
                 {
-                    OrderViewModel order_vm = _entityService.Map(ord);
+                    var order_vm = _entityService.Map(ord);
 
-                    foreach (OrderItem item in ord.OrderItems)
+                    foreach (var item in ord.OrderItems)
                         order_vm.OrderItems.Add(_entityService.Map(item));
 
                     acct_vms.Add(order_vm);
