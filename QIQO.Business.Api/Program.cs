@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Builder;
+using System.IO;
 
 namespace QIQO.Business.Api
 {
@@ -8,7 +8,7 @@ namespace QIQO.Business.Api
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
+            IWebHost host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

@@ -9,7 +9,7 @@ namespace QIQO.Business.Client.Proxies
     public class EntityProductClient : ProxyBase, IEntityProductService
     {
         private IEntityProductService channel = null;
-        
+
         public EntityProductClient() : this(EndpointConfiguration.NetTcpBinding_IEntityProductService) { }
 
         public EntityProductClient(EndpointConfiguration endpoint)

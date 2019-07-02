@@ -9,8 +9,9 @@ namespace QIQO.Business.Tests
         [Fact]
         public void AccountPersonUnitTests()
         {
-            var now = DateTime.Now;
-            var ap = new AccountPerson() {
+            DateTime now = DateTime.Now;
+            AccountPerson ap = new AccountPerson()
+            {
                 AddedDateTime = now,
                 AddedUserID = "Test",
                 Comment = "Test Comment",
@@ -63,7 +64,7 @@ namespace QIQO.Business.Tests
         [Fact]
         public void AccountTypeUnitTests()
         {
-            var at = new AccountType()
+            AccountType at = new AccountType()
             {
                 AccountTypeCode = "Test",
                 AccountTypeDesc = "Test Desc",

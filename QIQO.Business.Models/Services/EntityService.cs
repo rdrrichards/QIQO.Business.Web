@@ -12,14 +12,14 @@ namespace QIQO.Business.Services
     {
         private readonly IServiceFactory _service_fact;
         public EntityService(IServiceFactory services)
-        { 
+        {
             _service_fact = services;
         }
         public Order Map(OrderViewModel order_vm)
         {
-            var account_proxy = _service_fact.CreateClient<IAccountService>();
-            var order_proxy = _service_fact.CreateClient<IOrderService>();
-            var employee_service = _service_fact.CreateClient<IEmployeeService>();
+            IAccountService account_proxy = _service_fact.CreateClient<IAccountService>();
+            IOrderService order_proxy = _service_fact.CreateClient<IOrderService>();
+            IEmployeeService employee_service = _service_fact.CreateClient<IEmployeeService>();
 
             Account account = account_proxy.GetAccountByCode(order_vm.AccountCode, "TCF");
             int acct_cnt_key = account.Employees.Where(ct => ct.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault().EntityPersonKey;
@@ -46,7 +46,7 @@ namespace QIQO.Business.Services
                 SalesRepKey = sales_rep_list[0].EntityPersonKey
             };
 
-            foreach (var item in order_vm.OrderItems)
+            foreach (OrderItemViewModel item in order_vm.OrderItems)
             {
                 order.OrderItems.Add(Map(item));
             }
@@ -84,7 +84,7 @@ namespace QIQO.Business.Services
                 SalesRepName = order.SalesRep.PersonFullNameFML
             };
 
-            var contact = order.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
+            AccountPerson contact = order.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
             if (contact != null)
                 order_data.AccountContactName = contact.PersonFullNameFML;
 
@@ -230,7 +230,7 @@ namespace QIQO.Business.Services
                 SalesRepKey = sales_rep_list[0].EntityPersonKey
             };
 
-            foreach (var item in invoice_vm.InvoiceItems)
+            foreach (InvoiceItemViewModel item in invoice_vm.InvoiceItems)
             {
                 invoice.InvoiceItems.Add(Map(item));
             }
@@ -267,7 +267,7 @@ namespace QIQO.Business.Services
                 SalesRepName = invoice.SalesRep.PersonFullNameFML
             };
 
-            var contact = invoice.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
+            AccountPerson contact = invoice.Account.Employees.Where(item => item.CompanyRoleType == QIQOPersonType.AccountContact).FirstOrDefault();
             if (contact != null)
                 invoice_data.AccountContactName = contact.PersonFullNameFML;
 

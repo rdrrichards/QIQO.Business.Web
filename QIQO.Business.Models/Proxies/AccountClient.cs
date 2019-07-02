@@ -10,7 +10,7 @@ namespace QIQO.Business.Client.Proxies
     {
         private IAccountService channel = null;
 
-        public AccountClient() : this (EndpointConfiguration.NetTcpBinding_IAccountService)
+        public AccountClient() : this(EndpointConfiguration.NetTcpBinding_IAccountService)
         {
         }
 

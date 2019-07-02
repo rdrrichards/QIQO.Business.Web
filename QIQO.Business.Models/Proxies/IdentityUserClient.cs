@@ -138,7 +138,7 @@ namespace QIQO.Business.Client.Proxies
         {
             return channel.GetLoginsAsync(user);
         }
-                
+
         public IList<string> GetRoles(User user)
         {
             return channel.GetRoles(user);

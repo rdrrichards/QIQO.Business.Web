@@ -1,7 +1,5 @@
-﻿using Moq;
-using QIQO.Business.Core;
+﻿using QIQO.Business.Core;
 using System;
-using System.Runtime.Serialization;
 using Xunit;
 
 namespace QIQO.Business.Tests
@@ -11,13 +9,13 @@ namespace QIQO.Business.Tests
         [Fact]
         public void AuthorizationValidationExceptionTests()
         {
-            var ex1 = new AuthorizationValidationException();
+            AuthorizationValidationException ex1 = new AuthorizationValidationException();
             Assert.NotNull(ex1);
 
-            var ex2 = new AuthorizationValidationException("Run for you life!");
+            AuthorizationValidationException ex2 = new AuthorizationValidationException("Run for you life!");
             Assert.NotNull(ex2);
 
-            var ex3 = new AuthorizationValidationException("Run for you life!", new Exception());
+            AuthorizationValidationException ex3 = new AuthorizationValidationException("Run for you life!", new Exception());
             Assert.NotNull(ex3);
 
             //var fc = new Mock<IFormatterConverter>();
@@ -30,13 +28,13 @@ namespace QIQO.Business.Tests
         [Fact]
         public void NotFoundExceptionTests()
         {
-            var ex1 = new NotFoundException();
+            NotFoundException ex1 = new NotFoundException();
             Assert.NotNull(ex1);
 
-            var ex2 = new NotFoundException("Run for you life!");
+            NotFoundException ex2 = new NotFoundException("Run for you life!");
             Assert.NotNull(ex2);
 
-            var ex3 = new NotFoundException("Run for you life!", new Exception());
+            NotFoundException ex3 = new NotFoundException("Run for you life!", new Exception());
             Assert.NotNull(ex3);
 
             //var fc = new Mock<IFormatterConverter>();

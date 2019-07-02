@@ -23,13 +23,13 @@ namespace QIQO.Business.ViewModels.Api
 
         //productLongDesc : string;
         public string ProductLongDesc { get; set; }
-        
+
         //productImagePath : string;
         public string ProductImagePath { get; set; }
-        
+
         //productBasePrice : number;
         public decimal ProductBasePrice { get; set; }
-        
+
         //productBaseQuantity : number;
         public int ProductBaseQuantity { get; set; }
 

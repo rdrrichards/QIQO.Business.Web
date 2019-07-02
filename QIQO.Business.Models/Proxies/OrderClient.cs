@@ -14,7 +14,7 @@ namespace QIQO.Business.Client.Proxies
 
         public OrderClient(EndpointConfiguration endpoint)
         {
-            channel = new ChannelFactory<IOrderService>(GetBindingForEndpoint(EndpointConfigurationType.NetTcpBinding), 
+            channel = new ChannelFactory<IOrderService>(GetBindingForEndpoint(EndpointConfigurationType.NetTcpBinding),
                 GetEndpointAddress(endpoint)).CreateChannel();
         }
 

@@ -14,7 +14,7 @@ namespace QIQO.Business.Api
 
         public T CreateClient<T>() where T : IServiceContract
         {
-            var p = _services.BuildServiceProvider();
+            ServiceProvider p = _services.BuildServiceProvider();
             return p.GetService<T>();
         }
     }

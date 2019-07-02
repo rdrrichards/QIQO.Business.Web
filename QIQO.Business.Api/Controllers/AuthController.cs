@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using QIQO.Business.Client.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
 using QIQO.Business.ViewModels.Api;
+using System.Threading.Tasks;
 
 namespace QIQO.Web.Api.Controllers
 {
@@ -27,7 +27,7 @@ namespace QIQO.Web.Api.Controllers
         [HttpPost("api/auth/authenticate")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            var result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
             if (result.Succeeded)
             {
                 return Ok(); // Json(new { Succeeded = true, Message = "Authentication succeeded" });
@@ -58,17 +58,17 @@ namespace QIQO.Web.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User() { Email = model.UserName, UserName = model.UserName };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                User user = new User() { Email = model.UserName, UserName = model.UserName };
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var r_result = await _userManager.AddToRoleAsync(user, "Users");
+                    IdentityResult r_result = await _userManager.AddToRoleAsync(user, "Users");
                     await _signinManager.SignInAsync(user, true);
                     return Json(new { Succeeded = true, Message = "Registration succeeded" });
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }

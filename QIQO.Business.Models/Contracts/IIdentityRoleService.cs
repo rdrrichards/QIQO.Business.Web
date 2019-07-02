@@ -1,5 +1,5 @@
-﻿using QIQO.Business.Core;
-using QIQO.Business.Client.Entities;
+﻿using QIQO.Business.Client.Entities;
+using QIQO.Business.Core;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;

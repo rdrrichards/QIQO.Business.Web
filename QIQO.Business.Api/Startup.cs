@@ -2,15 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Routing;
-
-using QIQO.Business.Core;
 using QIQO.Business.Client.Contracts;
-using QIQO.Business.Services;
-using QIQO.Business.Client.Proxies;
 using QIQO.Business.Client.Entities;
+using QIQO.Business.Client.Proxies;
+using QIQO.Business.Core;
 using QIQO.Business.Identity;
+using QIQO.Business.Services;
 
 namespace QIQO.Business.Api
 {
@@ -18,7 +15,7 @@ namespace QIQO.Business.Api
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
@@ -127,7 +124,7 @@ namespace QIQO.Business.Api
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment en)
-        { 
+        {
             app.UseAuthentication();
             // app.UseCookieAuthentication();
 

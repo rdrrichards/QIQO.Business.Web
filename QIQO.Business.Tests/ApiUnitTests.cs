@@ -1,9 +1,7 @@
 ﻿using Moq;
 using QIQO.Business.Api.Controllers;
 using QIQO.Business.Core;
-using QIQO.Business.Identity;
 using QIQO.Business.Services;
-using System;
 using Xunit;
 
 namespace QIQO.Business.Tests
@@ -14,15 +12,15 @@ namespace QIQO.Business.Tests
         public void AccountControllerShouldCreate()
         {
             // Arrange
-            var mockServiceFactory = new Mock<IServiceFactory>();
-            var mockEntityService = new Mock<IEntityService>();
+            Mock<IServiceFactory> mockServiceFactory = new Mock<IServiceFactory>();
+            Mock<IEntityService> mockEntityService = new Mock<IEntityService>();
             // var mockQIQOUserManager = new Mock<QIQOUserManager>();
-            
+
 
             // mockAccountClient.Setup(m => m.CreateAccount(It.IsAny<Account>())).Returns(123);
 
             // SUT
-            var ac = new AccountController(mockServiceFactory.Object, mockEntityService.Object, null);
+            AccountController ac = new AccountController(mockServiceFactory.Object, mockEntityService.Object, null);
 
             // Act
             // var ret_val = sut.CreateAccount(account);

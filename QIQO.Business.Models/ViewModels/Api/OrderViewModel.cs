@@ -25,7 +25,7 @@ namespace QIQO.Business.ViewModels.Api
 
         //orderShipDate? : Date;
         public DateTime? OrderShipDate { get; set; }
-        
+
         //orderDeliverByDate? : Date;
         public DateTime? OrderDeliverByDate { get; set; }
 
