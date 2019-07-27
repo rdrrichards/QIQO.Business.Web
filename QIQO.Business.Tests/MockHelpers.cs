@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
 using System;

@@ -1,4 +1,5 @@
 ﻿// using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using QIQO.Business.Client.Contracts;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Client.Proxies;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Test;
+using Moq;
 using QIQO.Business.Client.Entities;
 using QIQO.Business.Identity;
 using System;
